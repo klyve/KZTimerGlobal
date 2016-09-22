@@ -14,7 +14,6 @@ env:
 
 install:
     - wget --input-file=http://sourcemod.net/smdrop/$SMVERSION/sourcemod-latest-linux
-    - wget --input-file=https://www.sourcemm.net/downloads/mmsource-1.10.6-linux.tar.gz
     - tar -xzf $(cat sourcemod-latest-linux)
 
 # And compile!
