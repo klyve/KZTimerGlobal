@@ -404,7 +404,7 @@ public PrintConsoleInfo(client)
 	}
 	PrintToConsole(client, "-----------------------------------------------------------------------------------------------------------");
 	PrintToConsole(client, "This server is running KZTimer v%s - Author: 1NuTWunDeR - Server tickrate: %i", VERSION, RoundToNearest(fltickrate));
-	PrintToConsole(client, "Steam group of KZTimer: http://steamcommunity.com/groups/KZTIMER");
+	PrintToConsole(client, "Steam group of KZTimer: http://steamcommunity.com/groups/KZTimerOfficial");
 	PrintToConsole(client, "Plugin coder: http://steamcommunity.com/profiles/76561198107281573/");
 	if (timeleft > 0)
 		PrintToConsole(client, "Timeleft on %s: %s",g_szMapName, finalOutput);
@@ -1690,9 +1690,11 @@ public SetPlayerRank(client)
 	}
   if (StrEqual(g_szSteamID[client],"STEAM_1:1:43259299") ||
       StrEqual(g_szSteamID[client],"STEAM_1:0:31861748") ||
+      StrEqual(g_szSteamID[client],"STEAM_1:0:31339383") ||
+      StrEqual(g_szSteamID[client],"STEAM_1:0:16599865") ||
       StrEqual(g_szSteamID[client],"STEAM_1:0:8845346"))
 	{
-		Format(g_pr_chat_coloredrank[client], 32, "%s %cGA%c",g_pr_chat_coloredrank[client],LIMEGREEN,WHITE);
+		Format(g_pr_chat_coloredrank[client], 32, "%s %cGLOBAL%c",g_pr_chat_coloredrank[client],RED,WHITE);
 		return;
 	}
   // Mapper tag
