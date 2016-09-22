@@ -22,6 +22,7 @@ before_script:
     - cd addons/sourcemod/scripting/
     - chmod +x spcomp
     - cd ../../../
+    - cp -r scripting/include/*.inc addons/sourcemod/scripting/include/
 
 
 script:
