@@ -1,0 +1,5 @@
+*.smx
+*.zip
+builds
+compiled
+.development.mk

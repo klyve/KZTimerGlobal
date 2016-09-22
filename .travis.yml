@@ -1,0 +1,28 @@
+language: c
+sudo: false
+
+addons:
+  apt_packages:
+    - lib32stdc++6  # needed for spcomp
+
+# Set the build environment
+env:
+    - SMVERSION=1.7 # Legacy
+    #- SMVERSION=1.8 # Stable
+    #- SMVERSION=1.9 # Unstable
+
+install:
+    - wget --input-file=http://sourcemod.net/smdrop/$SMVERSION/sourcemod-latest-linux
+    - tar -xzf $(cat sourcemod-latest-linux)
+
+# And compile!
+before_script:
+    # install the sourcemod compiler
+
+    - cd addons/sourcemod/scripting/
+    - chmod +x spcomp
+    - cd ../../../
+
+
+script:
+    - make build

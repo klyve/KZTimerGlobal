@@ -1,0 +1,68 @@
+#include .development.mk
+include .travis.mk
+PLUGINS=test test1
+NAME=Test
+VERSION=1.0.0
+
+
+FOLDER=./scripting
+INCLUDES=-i./scripting/include
+SOURCE_DIR=builds
+IGNORE=cfg builds compiled
+MAIN_DIRS=cfg
+
+COMPILER=$(COMPILER_PATH)
+BASE_INCLUDE=$(BASE_INCLUDE_PATH)
+INCLUDE_PATH=$(BASE_INCLUDE) $(INCLUDES)
+FILE_NAME=$(NAME)_$(VERSION).zip
+TMP_DIR=.tmp
+
+build: directories
+	@for plugin in $(PLUGINS); do \
+			echo "Compiling: $$plugin.sp"; \
+		  $(COMPILER) -i$(INCLUDE_PATH) $(FOLDER)/$$plugin.sp -ocompiled/$$plugin.smx; \
+	done;
+
+
+release: clean tmpdir build
+	@echo "Creating temp folder"
+	@cp -f ./compiled/*.smx $(TMP_DIR)/addons/sourcemod/plugins/
+	@echo "Copying base files"
+	@if [ -d "cfg" ]; then \
+		cp -r cfg $(TMP_DIR)/cfg; \
+	fi;
+	@echo "Creating sourcemod folder"
+	@for folder in *; do \
+    if [ -d "$$folder" ]; then \
+				if [[ $(TMP_DIR) != $$folder ]]; then \
+					cp -r $$folder $(TMP_DIR)/addons/sourcemod/; \
+				fi; \
+    fi; \
+	done;
+	@for folder in $(IGNORE); do \
+		rm -rf $(TMP_DIR)/addons/sourcemod/$$folder; \
+	done;
+	@echo "Creating file: $(SOURCE_DIR)$(FILE_NAME)"
+	@mkdir -p $(SOURCE_DIR)
+	cd $(TMP_DIR); \
+	zip -r $(FILE_NAME) *; \
+	cd --
+	cp $(TMP_DIR)/$(FILE_NAME) $(SOURCE_DIR)/$(FILE_NAME)
+	@echo "Cleaning up"
+	@rm -rf $(TMP_DIR)
+
+
+
+clean:
+	rm -rf compiled/
+	rm -rf builds/
+	rm -rf $(TMP_DIR)
+
+
+tmpdir:
+	mkdir -p $(TMP_DIR)/addons/sourcemod/plugins
+
+directories:
+	mkdir -p compiled/
+
+.PHONY: directories tmpdir

@@ -1,0 +1,2 @@
+COMPILER_PATH=addons/sourcemod/scripting/spcomp
+BASE_INCLUDE_PATH=addons/sourcemod/scripting/include
