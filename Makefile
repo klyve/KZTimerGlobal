@@ -21,6 +21,12 @@ build: directories
 	@for plugin in $(PLUGINS); do \
 			echo "Compiling: $$plugin.sp"; \
 		  $(COMPILER) -i$(INCLUDE_PATH) $(FOLDER)/$$plugin.sp -ocompiled/$$plugin.smx; \
+			retval=$$?; \
+			if [ $$retval -ne 0 ]; then \
+				exit 1; \
+			else \
+				echo "$$plugin compiled\n"; \
+			fi; \
 	done;
 
 
