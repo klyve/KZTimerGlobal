@@ -1,8 +1,8 @@
 #include .development.mk
 include .travis.mk
 PLUGINS=KZTimerGlobal KZErrorBoxFixer
-NAME=Test
-VERSION=1.0.0
+NAME=KZTimerGlobal
+VERSION=1.8.5
 
 
 FOLDER=./scripting
