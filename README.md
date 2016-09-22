@@ -135,4 +135,4 @@
 - ``!deletetpreplay`` - Deletes tp replay for a given map - requires z flag  
 - ``!resetextrapoints`` - Resets given extra points for all players with or without given STEAMID
 
-#####**(Note: STEAMID must be in the format STEAM_1:x:xxxxx)**
+#####**(Note: STEAMID must be in the format STEAM_1: x:xxxxx)**
