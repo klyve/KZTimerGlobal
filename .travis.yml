@@ -1,6 +1,7 @@
 language: c
 sudo: false
 
+
 addons:
   apt_packages:
     - lib32stdc++6  # needed for spcomp
