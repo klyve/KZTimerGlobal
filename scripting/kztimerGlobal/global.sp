@@ -72,7 +72,7 @@ ConnectToGlobalDB()
 	new Handle:kv = INVALID_HANDLE;
 	kv = CreateKeyValues("");
 	KvSetString(kv, "driver", "mysql");
-	KvSetString(kv, "host", "188.166.38.151");
+	KvSetString(kv, "host", "global.kztimer.com");
 	KvSetString(kv, "port", "3306");
 	KvSetString(kv, "database", "kztimerglobal");
 	KvSetString(kv, "user", "kztimerplugin");
