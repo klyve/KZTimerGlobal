@@ -6,7 +6,7 @@
 #include <button>
 #include <entity>
 #include <smlib>
-#include <KZTimer>
+#include <kztimer>
 #include <geoip>
 #include <colors>
 #include <basecomm>
