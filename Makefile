@@ -25,31 +25,37 @@ build: directories
 
 
 release: clean tmpdir build
+	@echo "************************************************************"
 	@echo "Creating temp folder"
 	@cp -f ./compiled/*.smx $(TMP_DIR)/addons/sourcemod/plugins/
 	@echo "Copying base files"
-	for folder in $(MAIN_DIRS); do \
+	@for folder in $(MAIN_DIRS); do \
+		echo "Copying $$folder into $(TMP_DIR)/$$folder"; \
 		cp -r $$folder/ $(TMP_DIR)/$$folder/; \
 	done;
 	@echo "Creating sourcemod folder"
 	@for folder in *; do \
     if [ -d "$$folder" ]; then \
 				if [[ $(TMP_DIR) != $$folder ]]; then \
+					echo "Copying $$folder into $(TMP_DIR)/addons/sourcemod"; \
 					cp -r $$folder $(TMP_DIR)/addons/sourcemod/; \
 				fi; \
     fi; \
 	done;
 	@for folder in $(IGNORE); do \
+		echo "Deleting folder $$folder"; \
 		rm -rf $(TMP_DIR)/addons/sourcemod/$$folder; \
 	done;
 	@echo "Creating file: $(SOURCE_DIR)$(FILE_NAME)"
 	@mkdir -p $(SOURCE_DIR)
-	cd $(TMP_DIR); \
+	@cd $(TMP_DIR); \
 	zip -r $(FILE_NAME) *; \
 	cd --
-	cp $(TMP_DIR)/$(FILE_NAME) $(SOURCE_DIR)/$(FILE_NAME)
+	@echo "Creating build file"
+	@cp $(TMP_DIR)/$(FILE_NAME) $(SOURCE_DIR)/$(FILE_NAME)
 	@echo "Cleaning up"
 	@rm -rf $(TMP_DIR)
+	@echo "Complete"
 
 
 
