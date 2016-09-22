@@ -1,6 +1,6 @@
 #include .development.mk
 include .travis.mk
-PLUGINS=test test1
+PLUGINS=KZTimerGlobal KZErrorBoxFixer
 NAME=Test
 VERSION=1.0.0
 
@@ -8,8 +8,8 @@ VERSION=1.0.0
 FOLDER=./scripting
 INCLUDES=-i./scripting/include
 SOURCE_DIR=builds
-IGNORE=cfg builds compiled
-MAIN_DIRS=cfg
+IGNORE=builds compiled cfg maps materials models sound
+MAIN_DIRS=cfg maps materials models sound
 
 COMPILER=$(COMPILER_PATH)
 BASE_INCLUDE=$(BASE_INCLUDE_PATH)
@@ -28,9 +28,9 @@ release: clean tmpdir build
 	@echo "Creating temp folder"
 	@cp -f ./compiled/*.smx $(TMP_DIR)/addons/sourcemod/plugins/
 	@echo "Copying base files"
-	@if [ -d "cfg" ]; then \
-		cp -r cfg $(TMP_DIR)/cfg; \
-	fi;
+	for folder in $(MAIN_DIRS); do \
+		cp -r $$folder/ $(TMP_DIR)/$$folder/; \
+	done;
 	@echo "Creating sourcemod folder"
 	@for folder in *; do \
     if [ -d "$$folder" ]; then \
