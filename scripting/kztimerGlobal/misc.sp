@@ -488,7 +488,7 @@ stock FakePrecacheSound( const String:szPath[] )
 
 stock Client_SetAssists(client, value)
 {
-	new assists_offset = FindDataMapOffs( client, "m_iFrags" ) + 4;
+	new assists_offset = FindDataMapInfo( client, "m_iFrags" ) + 4;
 	SetEntData(client, assists_offset, value );
 }
 
@@ -3439,13 +3439,13 @@ public FindBhopBlocks()
 	{
 		if(g_DoorOffs_vecPosition1 == -1)
 		{
-			g_DoorOffs_vecPosition1 = FindDataMapOffs(ent,"m_vecPosition1");
-			g_DoorOffs_vecPosition2 = FindDataMapOffs(ent,"m_vecPosition2");
-			g_DoorOffs_flSpeed = FindDataMapOffs(ent,"m_flSpeed");
-			g_DoorOffs_spawnflags = FindDataMapOffs(ent,"m_spawnflags");
-			g_DoorOffs_NoiseMoving = FindDataMapOffs(ent,"m_NoiseMoving");
-			g_DoorOffs_sLockedSound = FindDataMapOffs(ent,"m_ls.sLockedSound");
-			g_DoorOffs_bLocked = FindDataMapOffs(ent,"m_bLocked");
+			g_DoorOffs_vecPosition1 = FindDataMapInfo(ent,"m_vecPosition1");
+			g_DoorOffs_vecPosition2 = FindDataMapInfo(ent,"m_vecPosition2");
+			g_DoorOffs_flSpeed = FindDataMapInfo(ent,"m_flSpeed");
+			g_DoorOffs_spawnflags = FindDataMapInfo(ent,"m_spawnflags");
+			g_DoorOffs_NoiseMoving = FindDataMapInfo(ent,"m_NoiseMoving");
+			g_DoorOffs_sLockedSound = FindDataMapInfo(ent,"m_ls.sLockedSound");
+			g_DoorOffs_bLocked = FindDataMapInfo(ent,"m_bLocked");
 		}
 
 		GetEntDataVector(ent,g_DoorOffs_vecPosition1,startpos);
@@ -3485,10 +3485,10 @@ public FindBhopBlocks()
 	{
 		if(g_ButtonOffs_vecPosition1 == -1)
 		{
-			g_ButtonOffs_vecPosition1 = FindDataMapOffs(ent,"m_vecPosition1");
-			g_ButtonOffs_vecPosition2 = FindDataMapOffs(ent,"m_vecPosition2");
-			g_ButtonOffs_flSpeed = FindDataMapOffs(ent,"m_flSpeed");
-			g_ButtonOffs_spawnflags = FindDataMapOffs(ent,"m_spawnflags");
+			g_ButtonOffs_vecPosition1 = FindDataMapInfo(ent,"m_vecPosition1");
+			g_ButtonOffs_vecPosition2 = FindDataMapInfo(ent,"m_vecPosition2");
+			g_ButtonOffs_flSpeed = FindDataMapInfo(ent,"m_flSpeed");
+			g_ButtonOffs_spawnflags = FindDataMapInfo(ent,"m_spawnflags");
 		}
 
 		GetEntDataVector(ent,g_ButtonOffs_vecPosition1,startpos);
