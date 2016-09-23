@@ -1445,7 +1445,7 @@ public PauseMethod(client)
 			if (g_fPauseTime[client] > 0.0)
 				g_fStartPauseTime[client] = g_fStartPauseTime[client] - g_fPauseTime[client];	
 		}
-		SetEntData(client, FindSendPropOffs("CBaseEntity", "m_CollisionGroup"), 2, 4, true);
+		SetEntData(client, FindSendPropInfo("CBaseEntity", "m_CollisionGroup"), 2, 4, true);
 	}
 	else
 	{
@@ -1457,7 +1457,7 @@ public PauseMethod(client)
 		g_bPause[client]=false;
 		if (!g_bRoundEnd)
 			SetEntityMoveType(client, MOVETYPE_WALK);
-		SetEntData(client, FindSendPropOffs("CBaseEntity", "m_CollisionGroup"), 2, 4, true);
+		SetEntData(client, FindSendPropInfo("CBaseEntity", "m_CollisionGroup"), 2, 4, true);
 		DoValidTeleport(client, NULL_VECTOR,NULL_VECTOR, Float:{0.0,0.0,-100.0});
 	}
 }
@@ -1997,7 +1997,7 @@ public Action_NoClip(client)
 				ResetJump(client);
 				SetEntityMoveType(client, MOVETYPE_NOCLIP);
 				SetEntityRenderMode(client , RENDER_NONE); 
-				SetEntData(client, FindSendPropOffs("CBaseEntity", "m_CollisionGroup"), 2, 4, true);
+				SetEntData(client, FindSendPropInfo("CBaseEntity", "m_CollisionGroup"), 2, 4, true);
 				g_js_DuckCounter[client] = 0;
 				g_bNoClip[client] = true;
 			}
@@ -2018,7 +2018,7 @@ public Action_UnNoClip(client)
 			{
 				SetEntityMoveType(client, MOVETYPE_WALK);
 				SetEntityRenderMode(client, RENDER_TRANSCOLOR);
-				SetEntData(client, FindSendPropOffs("CBaseEntity", "m_CollisionGroup"), 2, 4, true);
+				SetEntData(client, FindSendPropInfo("CBaseEntity", "m_CollisionGroup"), 2, 4, true);
 				g_bNoClip[client] = false;
 			}
 		}

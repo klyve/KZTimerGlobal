@@ -870,8 +870,8 @@ public OnPluginStart()
 	g_Offs_vecOrigin = FindSendPropInfo("CBaseEntity","m_vecOrigin");
 	g_Offs_vecMins = FindSendPropInfo("CBaseEntity","m_vecMins");
 	g_Offs_vecMaxs = FindSendPropInfo("CBaseEntity","m_vecMaxs");
-	g_ownerOffset = FindSendPropOffs("CBaseCombatWeapon", "m_hOwnerEntity");
-	g_ragdolls = FindSendPropOffs("CCSPlayer","m_hRagdoll");
+	g_ownerOffset = FindSendPropInfo("CBaseCombatWeapon", "m_hOwnerEntity");
+	g_ragdolls = FindSendPropInfo("CCSPlayer","m_hRagdoll");
 
 	// MultiPlayer Bunny Hops: Source
 	// https://forums.alliedmods.net/showthread.php?p=808724

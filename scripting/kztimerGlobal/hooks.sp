@@ -30,7 +30,7 @@ stock SetEntityAlpha(index,alpha)
 {    
     new String:class[32];
     GetEntityNetClass(index, class, sizeof(class));
-    if(FindSendPropOffs(class,"m_nRenderFX")>-1)
+    if(FindSendPropInfo(class,"m_nRenderFX")>-1)
 	{
         SetEntityRenderMode(index,RENDER_TRANSCOLOR);
         SetEntityRenderColor(index,_,_,_,alpha);
@@ -208,7 +208,7 @@ PlayerSpawn(client)
 		SetEntProp(client, Prop_Data, "m_takedamage", 2, 1);
 		
 	//NoBlock
-	SetEntData(client, FindSendPropOffs("CBaseEntity", "m_CollisionGroup"), 2, 4, true);
+	SetEntData(client, FindSendPropInfo("CBaseEntity", "m_CollisionGroup"), 2, 4, true);
 			
 			
 	//info bot
@@ -782,9 +782,9 @@ public Action:Event_OnPlayerHurt(Handle:event, const String:name[], bool:dontBro
 		if (remainingHeatlh>0)
 		{
 			if ((remainingHeatlh+g_Autohealing_Hp) > 100)
-				SetEntData(client, FindSendPropOffs("CBasePlayer", "m_iHealth"), 100);
+				SetEntData(client, FindSendPropInfo("CBasePlayer", "m_iHealth"), 100);
 			else
-				SetEntData(client, FindSendPropOffs("CBasePlayer", "m_iHealth"), remainingHeatlh+g_Autohealing_Hp);
+				SetEntData(client, FindSendPropInfo("CBasePlayer", "m_iHealth"), remainingHeatlh+g_Autohealing_Hp);
 		}
 	}
 	return Plugin_Continue; 

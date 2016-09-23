@@ -1,5 +1,5 @@
-#include .development.mk
-include .travis.mk
+include .development.mk
+#include .travis.mk
 PLUGINS=KZTimerGlobal KZErrorBoxFixer
 NAME=KZTimerGlobal
 VERSION=1.8.5
