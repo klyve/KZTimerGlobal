@@ -37,10 +37,8 @@
         }
         "options_lang_en"
         {
-                "fi"       "Language - English”
+                "fi"       "Language - English"
         }
-
-
         "options_lang_de"
         {
                 "fi"       "Language - Germany"
@@ -51,10 +49,8 @@
         }
         "options_lang_fi"
         {
-                "fi"       "Language - Finnish”
-
-
-"options_lang_fr"
+                "fi"       "Language - Finnish"
+        "options_lang_fr"
         {
                 "fi"       "Language - French"
         }
@@ -273,8 +269,7 @@
         "ClientLadderJump1"
         {
                 "#format"   "{1:c},{2:c},{3:c},{4:.2f},{5:c},{6:i},{7:c},{8:c},{9:.0f},{10:c},{11:c},{12:.0f},{13:c},{14:c},{15:i},{16:c},{17:c}"
-                "fi"       "[{1}KZ{2}] {3}LAJ: {4} unittia [{5}{6}{7} Strafea | {8}{9}{10} Pre | {11}{12}{13} Korkeus
-| {14}{15}{16}{17} Sync]"
+                "fi"       "[{1}KZ{2}] {3}LAJ: {4} unittia [{5}{6}{7} Strafea | {8}{9}{10} Pre | {11}{12}{13} Korkeus | {14}{15}{16}{17} Sync]"
         }
         "ClientLadderJump2"
         {
@@ -585,8 +580,7 @@
 
 
         "ChallengeW"
-
-
+        {
                 "#format"   "{1:c},{2:c},{3:c},{4:s},{5:c},{6:c},{7:s},{8:c}"
                 "fi"        "[{1}KZ{2}] {3}{4}{5} Voitti haasteen pelaajaa {6}{7}{8} vastaan!"
         }
