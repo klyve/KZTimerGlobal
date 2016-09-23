@@ -28,8 +28,8 @@
 */
 
 //
-#define VERSION "1.85 Global"
-#define PLUGIN_VERSION 189
+#define VERSION "1.86 Global"
+#define PLUGIN_VERSION 190
 #define ADMIN_LEVEL ADMFLAG_UNBAN
 #define ADMIN_LEVEL2 ADMFLAG_ROOT
 #define MYSQL 0
