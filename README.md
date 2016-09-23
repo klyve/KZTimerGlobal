@@ -1,6 +1,6 @@
 #KZTimer
 
-[![Build Status](https://travis-ci.org/klyve/KZTimerGlobal.svg?branch=master)](https://travis-ci.org/klyve/KZTimerGlobal)
+[![Build [![Build Status](https://travis-ci.org/klyve/KZTimerGlobal.svg?branch=dev)](https://travis-ci.org/klyve/KZTimerGlobal)
 
 
 ###**KZTimer is a powerful, feature rich [SourceMod](http://www.sourcemod.net/) climb timer plugin for CS:GO servers**
