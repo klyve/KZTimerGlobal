@@ -37,10 +37,8 @@
         }
         "options_lang_en"
         {
-                "fi"       "Language - English”
+                "fi"       "Language - English"
         }
-
-
         "options_lang_de"
         {
                 "fi"       "Language - Germany"
