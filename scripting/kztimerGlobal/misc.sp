@@ -1694,7 +1694,7 @@ public SetPlayerRank(client)
       StrEqual(g_szSteamID[client],"STEAM_1:0:16599865") ||
       StrEqual(g_szSteamID[client],"STEAM_1:0:8845346"))
 	{
-		Format(g_pr_chat_coloredrank[client], 32, "%s %cGLOBAL%c",g_pr_chat_coloredrank[client],RED,WHITE);
+		Format(g_pr_chat_coloredrank[client], 32, "%s %cGLOBAL%c",g_pr_chat_coloredrank[client],DARKRED,WHITE);
 		return;
 	}
   // Mapper tag
