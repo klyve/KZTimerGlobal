@@ -141,7 +141,7 @@ public SetServerConvars()
 	ConVar mp_match_restart_delay = FindConVar("mp_match_restart_delay");
 	ConVar mp_endmatch_votenextleveltime = FindConVar("mp_endmatch_votenextleveltime");
 	ConVar mp_endmatch_votenextmap = FindConVar("mp_endmatch_votenextmap");
-	//ConVar sv_timebetweenducks = FindConVar("sv_timebetweenducks");
+	ConVar sv_timebetweenducks = FindConVar("sv_timebetweenducks");
 	ConVar mp_halftime = FindConVar("mp_halftime");
 	ConVar bot_zombie = FindConVar("bot_zombie");
 	ConVar sv_disable_immunity_alpha = FindConVar("sv_disable_immunity_alpha");
@@ -173,6 +173,8 @@ public SetServerConvars()
 		SetConVarInt(g_hCheats, 0);
 		SetConVarInt(g_hDropKnifeEnable, 0);
 		SetConVarInt(g_hEnableBunnyhoping, 1);
+		SetConVarInt(g_hAutoBhop, 0);
+		SetConVarInt(g_hClampVel, 0);
 		SetConVarFloat(g_hsv_ladder_scale_speed, 1.0);
 	}
 
@@ -200,7 +202,7 @@ public SetServerConvars()
 	SetConVarBool(mp_match_end_restart, false);
 	SetConVarInt(mp_match_restart_delay, 10);
 	SetConVarFloat(mp_endmatch_votenextleveltime, 3.0);
-	//SetConVarFloat(sv_timebetweenducks, 0.1);
+	SetConVarFloat(sv_timebetweenducks, 0.1);
 	SetConVarBool(mp_halftime, false);
 	SetConVarBool(bot_zombie, true);
 	SetConVarBool(mp_do_warmup_period, true);
@@ -488,7 +490,7 @@ stock FakePrecacheSound( const String:szPath[] )
 
 stock Client_SetAssists(client, value)
 {
-	new assists_offset = FindDataMapOffs( client, "m_iFrags" ) + 4;
+	new assists_offset = FindDataMapInfo( client, "m_iFrags" ) + 4;
 	SetEntData(client, assists_offset, value );
 }
 
@@ -1694,7 +1696,7 @@ public SetPlayerRank(client)
       StrEqual(g_szSteamID[client],"STEAM_1:0:16599865") ||
       StrEqual(g_szSteamID[client],"STEAM_1:0:8845346"))
 	{
-		Format(g_pr_chat_coloredrank[client], 32, "%s %cGLOBAL%c",g_pr_chat_coloredrank[client],RED,WHITE);
+		Format(g_pr_chat_coloredrank[client], 32, "%s %cGLOBAL%c",g_pr_chat_coloredrank[client],DARKRED,WHITE);
 		return;
 	}
   // Mapper tag
@@ -3439,13 +3441,13 @@ public FindBhopBlocks()
 	{
 		if(g_DoorOffs_vecPosition1 == -1)
 		{
-			g_DoorOffs_vecPosition1 = FindDataMapOffs(ent,"m_vecPosition1");
-			g_DoorOffs_vecPosition2 = FindDataMapOffs(ent,"m_vecPosition2");
-			g_DoorOffs_flSpeed = FindDataMapOffs(ent,"m_flSpeed");
-			g_DoorOffs_spawnflags = FindDataMapOffs(ent,"m_spawnflags");
-			g_DoorOffs_NoiseMoving = FindDataMapOffs(ent,"m_NoiseMoving");
-			g_DoorOffs_sLockedSound = FindDataMapOffs(ent,"m_ls.sLockedSound");
-			g_DoorOffs_bLocked = FindDataMapOffs(ent,"m_bLocked");
+			g_DoorOffs_vecPosition1 = FindDataMapInfo(ent,"m_vecPosition1");
+			g_DoorOffs_vecPosition2 = FindDataMapInfo(ent,"m_vecPosition2");
+			g_DoorOffs_flSpeed = FindDataMapInfo(ent,"m_flSpeed");
+			g_DoorOffs_spawnflags = FindDataMapInfo(ent,"m_spawnflags");
+			g_DoorOffs_NoiseMoving = FindDataMapInfo(ent,"m_NoiseMoving");
+			g_DoorOffs_sLockedSound = FindDataMapInfo(ent,"m_ls.sLockedSound");
+			g_DoorOffs_bLocked = FindDataMapInfo(ent,"m_bLocked");
 		}
 
 		GetEntDataVector(ent,g_DoorOffs_vecPosition1,startpos);
@@ -3485,10 +3487,10 @@ public FindBhopBlocks()
 	{
 		if(g_ButtonOffs_vecPosition1 == -1)
 		{
-			g_ButtonOffs_vecPosition1 = FindDataMapOffs(ent,"m_vecPosition1");
-			g_ButtonOffs_vecPosition2 = FindDataMapOffs(ent,"m_vecPosition2");
-			g_ButtonOffs_flSpeed = FindDataMapOffs(ent,"m_flSpeed");
-			g_ButtonOffs_spawnflags = FindDataMapOffs(ent,"m_spawnflags");
+			g_ButtonOffs_vecPosition1 = FindDataMapInfo(ent,"m_vecPosition1");
+			g_ButtonOffs_vecPosition2 = FindDataMapInfo(ent,"m_vecPosition2");
+			g_ButtonOffs_flSpeed = FindDataMapInfo(ent,"m_flSpeed");
+			g_ButtonOffs_spawnflags = FindDataMapInfo(ent,"m_spawnflags");
 		}
 
 		GetEntDataVector(ent,g_ButtonOffs_vecPosition1,startpos);
@@ -4629,6 +4631,11 @@ public RegServerConVars()
 	g_hCheats = FindConVar("sv_cheats");
 	g_hDropKnifeEnable = FindConVar("sv_cheats");
 	g_hEnableBunnyhoping = FindConVar("sv_enablebunnyhopping");
+
+  // New convars
+	g_hAutoBhop= FindConVar("sv_autobunnyhopping");
+	g_hClampVel= FindConVar("sv_clamp_unsafe_velocities");
+
 	g_hsv_ladder_scale_speed = FindConVar("sv_ladder_scale_speed");
 	g_hMaxRounds = FindConVar("mp_maxrounds");
 	HookConVarChange(g_hStaminaLandCost, OnSettingChanged);
@@ -4643,6 +4650,8 @@ public RegServerConVars()
 	HookConVarChange(g_hCheats, OnSettingChanged);
 	HookConVarChange(g_hDropKnifeEnable, OnSettingChanged);
 	HookConVarChange(g_hEnableBunnyhoping, OnSettingChanged);
+	HookConVarChange(g_hAutoBhop, OnSettingChanged);
+	HookConVarChange(g_hClampVel, OnSettingChanged);
 	HookConVarChange(g_hsv_ladder_scale_speed, OnSettingChanged);
 	HookConVarChange(g_hMaxRounds, OnSettingChanged);
 

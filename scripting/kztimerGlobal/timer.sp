@@ -413,7 +413,7 @@ public Action:KZTimer2(Handle:timer)
 		
 		if (IsPlayerAlive(i)) 
 		{	
-			SetEntData(i, FindSendPropOffs("CBaseEntity", "m_CollisionGroup"), 2, 4, true);
+			SetEntData(i, FindSendPropInfo("CBaseEntity", "m_CollisionGroup"), 2, 4, true);
 				
 			//spec hud
 			SpecListMenuAlive(i);
