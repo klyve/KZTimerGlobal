@@ -28,7 +28,7 @@
 */
 
 //
-#define VERSION "1.86 Global"
+#define VERSION "1.85_1 Global"
 #define PLUGIN_VERSION 190
 #define ADMIN_LEVEL ADMFLAG_UNBAN
 #define ADMIN_LEVEL2 ADMFLAG_ROOT
@@ -149,6 +149,11 @@ new Handle:g_hDropKnifeEnable = INVALID_HANDLE;
 new Handle:g_hMaxRounds = INVALID_HANDLE;
 new Handle:g_hEnableBunnyhoping = INVALID_HANDLE;
 new Handle:g_hsv_ladder_scale_speed = INVALID_HANDLE;
+
+
+new Handle:g_hAutoBhop = INVALID_HANDLE;
+new Handle:g_hClampVel = INVALID_HANDLE;
+
 new Handle:g_hTeleport = INVALID_HANDLE;
 new Handle:g_hMainMenu = INVALID_HANDLE;
 new Handle:g_hSDK_Touch = INVALID_HANDLE;
@@ -1702,6 +1707,8 @@ public OnSettingChanged(Handle:convar, const String:oldValue[], const String:new
 			SetConVarInt(g_hCheats, 0);
 			SetConVarInt(g_hEnableBunnyhoping, 1);
 			SetConVarInt(g_hDropKnifeEnable, 0);
+			SetConVarInt(g_hAutoBhop, 0);
+			SetConVarInt(g_hClampVel, 0);
 			SetConVarFloat(g_hsv_ladder_scale_speed, 1.0);
 		}
 		else
@@ -2124,6 +2131,20 @@ public OnSettingChanged(Handle:convar, const String:oldValue[], const String:new
 		new Float:flTmp = StringToFloat(newValue[0]);
 		if (g_bEnforcer && flTmp != 1.0)
 			SetConVarFloat(g_hsv_ladder_scale_speed, 1.0);
+	}
+
+
+	if(convar == g_hAutoBhop)
+	{
+		new iTmp = StringToInt(newValue[0]);
+		if (g_bEnforcer && iTmp != 0)
+			SetConVarInt(g_hAutoBhop, 0);
+	}
+	if(convar == g_hClampVel)
+	{
+		new iTmp = StringToInt(newValue[0]);
+		if (g_bEnforcer && iTmp != 0)
+			SetConVarInt(g_hClampVel, 0);
 	}
 }
 
