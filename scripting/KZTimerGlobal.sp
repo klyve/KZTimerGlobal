@@ -820,6 +820,8 @@ public APLRes:AskPluginLoad2(Handle:myself, bool:late, String:error[], err_max)
 
 public OnPluginStart()
 {
+	this will
+	error out
 
 	//GameCheck
 	new String:gameDir[64];
