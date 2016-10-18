@@ -50,6 +50,7 @@
         "options_lang_fi"
         {
                 "fi"       "Language - Finnish"
+        }
         "options_lang_fr"
         {
                 "fi"       "Language - French"
