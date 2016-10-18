@@ -1413,7 +1413,7 @@ public Action:Client_Start(client, args)
 public Action:Client_Pause(client, args)
 {
 	if (GetClientTeam(client) == 1) return Plugin_Handled;
-	if( !(GetEntityFlags(client) & FL_ONGROUND ) ) {
+	if( !(GetEntityFlags(client) & FL_ONGROUND ) && g_bPause[client]==false ) {
 		PrintToChat(client, "Can't pause in air");
 		return Plugin_Handled;
 	}
