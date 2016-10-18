@@ -6,7 +6,7 @@ new Handle:kz_respawn_enable = INVALID_HANDLE;
 new Handle:kz_respawn_delay = INVALID_HANDLE;
 new Handle:kz_respawn_msgs = INVALID_HANDLE;
 
-public Plugin:myinfo = 
+public Plugin:myinfo =
 {
 	name = "KZ Jointeam Fix",
 	author = "Sikari",
@@ -37,7 +37,7 @@ public Event_Spawn( Handle:Spawn_Event, const String:Death_Name[], bool:Death_Br
 		{
 			new Float:respawndelaytime = GetConVarFloat(kz_respawn_delay);
 			CreateTimer(respawndelaytime, RespawnClient, any:client);
-			
+
 			if( GetConVarBool(kz_respawn_msgs) )
 			{
 				new respawndelaytimeint = GetConVarInt(kz_respawn_delay);
@@ -57,7 +57,7 @@ public Event_Death( Handle:Death_Event, const String:Death_Name[], bool:Death_Br
 		{
 			new Float:respawndelaytime = GetConVarFloat(kz_respawn_delay);
 			CreateTimer(respawndelaytime, RespawnClient, any:client);
-			
+
 			if( GetConVarBool(kz_respawn_msgs) )
 			{
 				new respawndelaytimeint = GetConVarInt(kz_respawn_delay);
@@ -71,7 +71,7 @@ public Action:RespawnClient( Handle:timer, any:client )
 {
 	if( GetConVarBool(kz_respawn_enable) )
 	{
-	if ( GetClientTeam(client) == CS_TEAM_SPECTATOR) {
+	if (IsClientInGame(client) && GetClientTeam(client) == CS_TEAM_SPECTATOR) {
 	return Plugin_Handled;
 	} else {
 		if ( IsValidEntity(client) && IsClientInGame(client) && !IsPlayerAlive(client) )
@@ -80,4 +80,6 @@ public Action:RespawnClient( Handle:timer, any:client )
 			}
 		}
 	}
+	
+	return Plugin_Handled;
 }

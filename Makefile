@@ -2,7 +2,7 @@
 include .travis.mk
 PLUGINS=KZTimerGlobal KZErrorBoxFixer Jointeamfix
 NAME=KZTimerGlobal
-VERSION=1.8.5
+VERSION=1.8.5_1
 
 
 FOLDER=./scripting
