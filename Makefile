@@ -1,8 +1,8 @@
 #include .development.mk
 include .travis.mk
-PLUGINS=KZTimerGlobal KZErrorBoxFixer
+PLUGINS=KZTimerGlobal KZErrorBoxFixer Jointeamfix
 NAME=KZTimerGlobal
-VERSION=1.8.6
+VERSION=1.8.5_1
 
 
 FOLDER=./scripting

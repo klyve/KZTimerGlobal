@@ -141,7 +141,7 @@ public SetServerConvars()
 	ConVar mp_match_restart_delay = FindConVar("mp_match_restart_delay");
 	ConVar mp_endmatch_votenextleveltime = FindConVar("mp_endmatch_votenextleveltime");
 	ConVar mp_endmatch_votenextmap = FindConVar("mp_endmatch_votenextmap");
-	//ConVar sv_timebetweenducks = FindConVar("sv_timebetweenducks");
+	ConVar sv_timebetweenducks = FindConVar("sv_timebetweenducks");
 	ConVar mp_halftime = FindConVar("mp_halftime");
 	ConVar bot_zombie = FindConVar("bot_zombie");
 	ConVar sv_disable_immunity_alpha = FindConVar("sv_disable_immunity_alpha");
@@ -173,6 +173,8 @@ public SetServerConvars()
 		SetConVarInt(g_hCheats, 0);
 		SetConVarInt(g_hDropKnifeEnable, 0);
 		SetConVarInt(g_hEnableBunnyhoping, 1);
+		SetConVarInt(g_hAutoBhop, 0);
+		SetConVarInt(g_hClampVel, 0);
 		SetConVarFloat(g_hsv_ladder_scale_speed, 1.0);
 	}
 
@@ -200,7 +202,7 @@ public SetServerConvars()
 	SetConVarBool(mp_match_end_restart, false);
 	SetConVarInt(mp_match_restart_delay, 10);
 	SetConVarFloat(mp_endmatch_votenextleveltime, 3.0);
-	//SetConVarFloat(sv_timebetweenducks, 0.1);
+	SetConVarFloat(sv_timebetweenducks, 0.1);
 	SetConVarBool(mp_halftime, false);
 	SetConVarBool(bot_zombie, true);
 	SetConVarBool(mp_do_warmup_period, true);
@@ -1694,7 +1696,7 @@ public SetPlayerRank(client)
       StrEqual(g_szSteamID[client],"STEAM_1:0:16599865") ||
       StrEqual(g_szSteamID[client],"STEAM_1:0:8845346"))
 	{
-		Format(g_pr_chat_coloredrank[client], 32, "%s %cGLOBAL%c",g_pr_chat_coloredrank[client],RED,WHITE);
+		Format(g_pr_chat_coloredrank[client], 32, "%s %cGLOBAL%c",g_pr_chat_coloredrank[client],DARKRED,WHITE);
 		return;
 	}
   // Mapper tag
@@ -4629,6 +4631,11 @@ public RegServerConVars()
 	g_hCheats = FindConVar("sv_cheats");
 	g_hDropKnifeEnable = FindConVar("sv_cheats");
 	g_hEnableBunnyhoping = FindConVar("sv_enablebunnyhopping");
+
+  // New convars
+	g_hAutoBhop= FindConVar("sv_autobunnyhopping");
+	g_hClampVel= FindConVar("sv_clamp_unsafe_velocities");
+
 	g_hsv_ladder_scale_speed = FindConVar("sv_ladder_scale_speed");
 	g_hMaxRounds = FindConVar("mp_maxrounds");
 	HookConVarChange(g_hStaminaLandCost, OnSettingChanged);
@@ -4643,6 +4650,8 @@ public RegServerConVars()
 	HookConVarChange(g_hCheats, OnSettingChanged);
 	HookConVarChange(g_hDropKnifeEnable, OnSettingChanged);
 	HookConVarChange(g_hEnableBunnyhoping, OnSettingChanged);
+	HookConVarChange(g_hAutoBhop, OnSettingChanged);
+	HookConVarChange(g_hClampVel, OnSettingChanged);
 	HookConVarChange(g_hsv_ladder_scale_speed, OnSettingChanged);
 	HookConVarChange(g_hMaxRounds, OnSettingChanged);
 
