@@ -71,7 +71,7 @@ public Action:RespawnClient( Handle:timer, any:client )
 {
 	if( GetConVarBool(kz_respawn_enable) )
 	{
-	if ( GetClientTeam(client) == CS_TEAM_SPECTATOR) {
+	if (IsClientInGame(client) && GetClientTeam(client) == CS_TEAM_SPECTATOR) {
 	return Plugin_Handled;
 	} else {
 		if ( IsValidEntity(client) && IsClientInGame(client) && !IsPlayerAlive(client) )
