@@ -352,7 +352,7 @@ public db_setupDatabase()
 			LogError("[KZPro] Invalid Database-Type");
 			return;
 		}
-	SQL_FastQuery(g_hDb,"SET NAMES  'utf8'");
+	SQL_SetCharset(g_hDb,"UTF8");
 	db_createTables();
 	//globalconnection.sp
 	ConnectToGlobalDB(); 	
