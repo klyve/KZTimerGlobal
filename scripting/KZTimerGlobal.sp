@@ -730,7 +730,7 @@ new String:IMPRESSIVE_FULL_SOUND_PATH[128];
 new String:IMPRESSIVE_RELATIVE_SOUND_PATH[128];
 new String:GOLDEN_FULL_SOUND_PATH[128];
 new String:GOLDEN_RELATIVE_SOUND_PATH[128];
-new String:g_szLanguages[][128] = {"English", "German", "Swedish", "French", "Russian", "SChinese", "Brazilian"};
+ew String:g_szLanguages[][128] = {"English", "German", "Swedish", "French", "Russian", "SChinese", "Brazilian", "Finnish"};
 new String:RadioCMDS[][] = {"coverme", "takepoint", "holdpos", "regroup", "followme", "takingfire", "go", "fallback", "sticktog",
 	"getinpos", "stormfront", "report", "roger", "enemyspot", "needbackup", "sectorclear", "inposition", "reportingin",
 	"getout", "negative","enemydown","cheer","thanks","nice","compliment"};
