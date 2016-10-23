@@ -1,4 +1,4 @@
-﻿"Phrases"
+"Phrases"
 {
 	"Jumpstats_PersonalBest"
 	{
@@ -50,6 +50,10 @@
 	"options_lang_fr"
 	{
 		"ru"       "Language - French"
+	}
+	"options_lang_fi"
+	{
+		"ru"		"Language - Finnish"
 	}
 	"options_lang_ru"
 	{
