@@ -1,4 +1,4 @@
-﻿"Phrases"
+"Phrases"
 {
 	"AntiCheatEnabled"
 	{
@@ -55,6 +55,10 @@
 	"options_lang_fr"
 	{
 		"de"       "Language - French"
+	}
+	"options_lang_fi"
+	{
+		"de"		"Language - Finnish"
 	}
 	"options_lang_ru"
 	{
