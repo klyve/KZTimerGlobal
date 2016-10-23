@@ -1,5 +1,5 @@
 "Phrases"
-{2222
+{
 	"Jumpstats_PersonalBest"
 	{
 		"#format"   "{1:c}"
