@@ -2730,7 +2730,8 @@ public SetClientLang(client)
 		case 3: g_ClientLang[client] = 4;
 		case 4: g_ClientLang[client] = 5;
 		case 5: g_ClientLang[client] = 6;
-		case 6: g_ClientLang[client] = 0;
+		case 6: g_ClientLang[client] = 7;
+		case 7: g_ClientLang[client] = 0;
 	}
 	SetClientLangByID(client,g_ClientLang[client])
 }
@@ -2760,6 +2761,8 @@ public OptionMenu(client)
 		case 4: Format(buffer, sizeof(buffer), "%T", "options_lang_ru", client);
 		case 5: Format(buffer, sizeof(buffer), "%T", "options_lang_cn", client);
 		case 6: Format(buffer, sizeof(buffer), "%T", "options_lang_pt", client);
+		case 7: Format(buffer, sizeof(buffer), "%T", "options_lang_fi", client);
+		
 	}
 	AddMenuItem(optionmenu, "", buffer);
 
