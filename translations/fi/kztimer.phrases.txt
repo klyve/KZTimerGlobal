@@ -578,14 +578,11 @@
                 "#format"   "{1:c},{2:c},{3:c},{4:s},{5:c},{6:c},{7:i},{8:c},{9:c},{10:i},{11:c}"
                 "fi"        "[{1}KZ{2}] {3}{4}{5} on hävinnyt {6}{7} pistettä{8} [{9}{10}{11} Yhteensä]"
         }
-
-
         "ChallengeW"
         {
                 "#format"   "{1:c},{2:c},{3:c},{4:s},{5:c},{6:c},{7:s},{8:c}"
                 "fi"        "[{1}KZ{2}] {3}{4}{5} Voitti haasteen pelaajaa {6}{7}{8} vastaan!"
         }
-
 
         "ChallengeL"
         {
