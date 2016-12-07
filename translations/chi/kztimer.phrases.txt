@@ -1433,4 +1433,8 @@
 	{
 		"chi"       "Language - Portuguese Brazilian"
 	}
+	"options_lang_fi"
+	{
+		"chi"	    "Language - Finnish"
+	}
 }
