@@ -579,6 +579,13 @@ public Action:Command_JoinTeam(client, const String:command[], argc)
 	decl String:arg[4];
 	GetCmdArg(1, arg, sizeof(arg));
 	new toteam = StringToInt(arg);
+	
+		
+ 	// Check if valid team (HUGE thanks to Fusion! <3) 
+ 	if (toteam != CS_TEAM_SPECTATOR && toteam != CS_TEAM_CT && toteam != CS_TEAM_T)
+ 	{
+ 	return Plugin_Handled;
+ 	}
 
 	if (g_Team_Restriction > 0)
 	{
@@ -2730,7 +2737,9 @@ public SetClientLang(client)
 		case 3: g_ClientLang[client] = 4;
 		case 4: g_ClientLang[client] = 5;
 		case 5: g_ClientLang[client] = 6;
-		case 6: g_ClientLang[client] = 0;
+		case 6: g_ClientLang[client] = 7;
+		case 7: g_ClientLang[client] = 0;
+
 	}
 	SetClientLangByID(client,g_ClientLang[client])
 }
@@ -2760,6 +2769,7 @@ public OptionMenu(client)
 		case 4: Format(buffer, sizeof(buffer), "%T", "options_lang_ru", client);
 		case 5: Format(buffer, sizeof(buffer), "%T", "options_lang_cn", client);
 		case 6: Format(buffer, sizeof(buffer), "%T", "options_lang_pt", client);
+		case 7: Format(buffer, sizeof(buffer), "%T", "options_lang_fi", client);
 	}
 	AddMenuItem(optionmenu, "", buffer);
 

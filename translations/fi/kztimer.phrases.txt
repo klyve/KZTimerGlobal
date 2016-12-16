@@ -37,10 +37,8 @@
         }
         "options_lang_en"
         {
-                "fi"       "Language - English”
+                "fi"       "Language - English"
         }
-
-
         "options_lang_de"
         {
                 "fi"       "Language - Germany"
@@ -51,10 +49,9 @@
         }
         "options_lang_fi"
         {
-                "fi"       "Language - Finnish”
-
-
-"options_lang_fr"
+                "fi"       "Language - Finnish"
+        }
+		"options_lang_fr"
         {
                 "fi"       "Language - French"
         }
@@ -68,7 +65,7 @@
         }
         "options_lang_pt"
         {
-                "fi"       "Language - Portuguese Brazilian "
+                "fi"       "Language - Portuguese Brazilian"
         }
         "stopsound"
         {
@@ -82,7 +79,7 @@
         }
         "kick_msg_low_fps"
         {
-                "fi"       "[KZTimer] Laita “fps_max” arvosi suuremmaksi tai samaksi kuin 120”
+                "fi"       "[KZTimer] Laita “fps_max“ arvosi suuremmaksi tai samaksi kuin 120"
         }
         "options_advcp_on"
         {
@@ -130,11 +127,11 @@
         }
         "options_cpmessage_on"
         {
-                "fi"       "”Teleporttipiste tehty” chatti ilmoitus  -  Käytössä"
+                "fi"       "“Teleporttipiste tehty“ chatti ilmoitus  -  Käytössä"
         }
         "options_cpmessage_off"
         {
-                "fi"        "”Teleporttipiste tehty” chatti ilmoitus  - Poissa käytöstä"
+                "fi"        "“Teleporttipiste tehty“ chatti ilmoitus  - Poissa käytöstä"
         }
         "options_menusounds_on"
         {
@@ -273,8 +270,7 @@
         "ClientLadderJump1"
         {
                 "#format"   "{1:c},{2:c},{3:c},{4:.2f},{5:c},{6:i},{7:c},{8:c},{9:.0f},{10:c},{11:c},{12:.0f},{13:c},{14:c},{15:i},{16:c},{17:c}"
-                "fi"       "[{1}KZ{2}] {3}LAJ: {4} unittia [{5}{6}{7} Strafea | {8}{9}{10} Pre | {11}{12}{13} Korkeus
-| {14}{15}{16}{17} Sync]"
+                "fi"       "[{1}KZ{2}] {3}LAJ: {4} unittia [{5}{6}{7} Strafea | {8}{9}{10} Pre | {11}{12}{13} Korkeus | {14}{15}{16}{17} Sync]"
         }
         "ClientLadderJump2"
         {
@@ -435,7 +431,7 @@
         "AntiCheatEnabled"
         {
                 "#format"   "{1:c},{2:c},{3:c}"
-                "fi"       " {1}{2}{3}VAROITUS: Kaikenlainen huijjaaminen aiheuttaa porttikiellon jokaiselle Global KZTimer serverille! Tähän kuuluu mutta ei rajoitu niihin: hakkerointi, macrot ja hiiren ominaisuudet kuten hyperscrollaus.”
+                "fi"       " {1}{2}{3}VAROITUS: Kaikenlainen huijjaaminen aiheuttaa porttikiellon jokaiselle Global KZTimer serverille! Tähän kuuluu mutta ei rajoitu niihin: hakkerointi, macrot ja hiiren ominaisuudet kuten hyperscrollaus."
         }
 
         "NoCpsDuringChallenge"
@@ -478,7 +474,7 @@
         "Challenge2"
         {
                 "#format"   "{1:c},{2:c},{3:c},{4:s},{5:c},{6:c},{7:i},{8:s}"
-                "fi"        "[{1}KZ{2}] {3}{4} haastoi sinut. Sinulla on 20 sekuntia aikaa laittaa {5}”!accept”{6} (Panos: {7}p, Teleporttipisteet {8})"
+                "fi"        "[{1}KZ{2}] {3}{4} haastoi sinut. Sinulla on 20 sekuntia aikaa laittaa {5}“!accept“{6} (Panos: {7}p, Teleporttipisteet {8})"
         }
         "Challenge3"
         {
@@ -525,12 +521,12 @@
         "ChallengeStarted1"
         {
                 "#format"   "{1:c},{2:c},{3:c}"
-                "fi"        "[{1}KZ{2}] {3}Jos haluat luovuttaa, kirjoita “!surrender”"
+                "fi"        "[{1}KZ{2}] {3}Jos haluat luovuttaa, kirjoita “!surrender“"
         }
         "ChallengeStarted2"
         {
                 "#format"   "{1:c},{2:c},{3:c}"
-                "fi"        "[{1}KZ{2}] {3}Voitte molemmat kirjoittaa “!cancel” chattiin lopettaaksenne haasteen."
+                "fi"        "[{1}KZ{2}] {3}Voitte molemmat kirjoittaa “!cancel“ chattiin lopettaaksenne haasteen."
         }
         "ChallengeStarted3"
         {
@@ -550,7 +546,7 @@
         "ChallengeWon"
         {
                 "#format"   "{1:c},{2:c},{3:c},{4:c}"
-                "fi"        "[{1}KZ{2}] {3}Haaste voitettu! {4}(Vastustajasi poistui serveriltä)”
+                "fi"        "[{1}KZ{2}] {3}Haaste voitettu! {4}(Vastustajasi poistui serveriltä)"
         }
         "ChallengeAborted"
         {
@@ -582,16 +578,11 @@
                 "#format"   "{1:c},{2:c},{3:c},{4:s},{5:c},{6:c},{7:i},{8:c},{9:c},{10:i},{11:c}"
                 "fi"        "[{1}KZ{2}] {3}{4}{5} on hävinnyt {6}{7} pistettä{8} [{9}{10}{11} Yhteensä]"
         }
-
-
         "ChallengeW"
-
-
+		{
                 "#format"   "{1:c},{2:c},{3:c},{4:s},{5:c},{6:c},{7:s},{8:c}"
                 "fi"        "[{1}KZ{2}] {3}{4}{5} Voitti haasteen pelaajaa {6}{7}{8} vastaan!"
         }
-
-
         "ChallengeL"
         {
                 "#format"   "{1:c},{2:c},{3:c},{4:s},{5:c},{6:c},{7:i},{8:c}"
@@ -605,7 +596,7 @@
         "BotAlreadyCreated"
         {
                 "#format"   "{1:c},{2:c}"
-                "fi"        "[{1}KZ{2}] Uusinta botti jo hengissä.”
+                "fi"        "[{1}KZ{2}] Uusinta botti jo hengissä."
         }
         "NoPlayerTop"
         {
@@ -620,7 +611,7 @@
         "PrUpdateStarted"
         {
                 "#format"   "{1:c},{2:c}"
-                "fi"        "[{1}KZ{2}] Uudelleenlasketaan pelaajatilastoja. Tässä voi mennä hetki, odota! (Voit seurata prosessia consolistasi)”
+                "fi"        "[{1}KZ{2}] Uudelleenlasketaan pelaajatilastoja. Tässä voi mennä hetki, odota! (Voit seurata prosessia consolistasi)"
         }
         "PrUpdateFinished"
         {
@@ -715,7 +706,7 @@
         "NoClipUnlocked"
         {
                 "#format"   "{1:c},{2:c},{3:c}"
-                "fi"        "[{1}KZ{2}] {3}NoClip sallittu (kirjoita consoleen: “bind KEY +noclip”)"
+                "fi"        "[{1}KZ{2}] {3}NoClip sallittu (kirjoita consoleen: “bind KEY +noclip“)"
         }
         "PlayerNotFound"
         {
@@ -855,7 +846,7 @@
         "Goto10"
         {
                 "#format"   "{1:c},{2:c},{3:s}"
-                "fi"        "[{1}KZ{2}] Pelaaja {3} on poistanut käytöstä teleporttaamisen häneen.”
+                "fi"        "[{1}KZ{2}] Pelaaja {3} on poistanut käytöstä teleporttaamisen häneen."
         }
         "SpeedMeter1"
         {
@@ -880,7 +871,7 @@
         "CheckpointSaved"
         {
                 "#format"   "{1:c},{2:c},{3:c},{4:c},{5:i},{6:c}"
-                "fi"        "[{1}KZ{2}] {3}Teleporttipiste{4}#{5}{6} tallennettu."
+                "fi"        "[{1}KZ{2}] {3}Teleporttipiste {4}#{5}{6} tallennettu."
         }
         "CheckpointsNotinAir"
         {
@@ -890,7 +881,7 @@
         "CheckpointsNotonBhopPlattforms"
         {
                 "#format"   "{1:c},{2:c},{3:c}"
-                "fi"        "[{1}KZ{2}] {3}Teleporttipisteet kielletty bunnyhop laatoilla.”
+                "fi"        "[{1}KZ{2}] {3}Teleporttipisteet kielletty bunnyhop laatoilla."
         }
         "NoCheckpointsFound"
         {
@@ -910,8 +901,7 @@
         "PositionRestored"
         {
                 "#format"   ""
-                "fi"         "<font color='#80FF00' size='24' face ='Calibri'><b>  \n   Sijaintisi on
-palautettu</b></font>"
+                "fi"         "<font color='#80FF00' size='24' face ='Calibri'><b>  \n   Sijaintisi on palautettu</b></font>"
         }
         "RadioCommandsDisabled"
         {

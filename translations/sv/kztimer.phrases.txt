@@ -63,6 +63,10 @@
 	{
 		"sv"       "Language - Portuguese Brazilian"
 	}
+	"options_lang_fi"
+	{
+		"sv"	   "Language - Finnish"
+	}
 	"Route1"
 	{
 		"#format"   "{1:c},{2:c}"
