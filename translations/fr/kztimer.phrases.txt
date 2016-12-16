@@ -68,6 +68,10 @@
 	{
 		"fr"       "Language - Portuguese Brazilian"
 	}
+	"options_lang_fi"
+	{
+		"fr"	   "Language - Finnish"
+	}
 	"stopsound"
 	{
 		"#format"   "{1:c},{2:c}"
