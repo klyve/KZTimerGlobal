@@ -567,33 +567,41 @@ public Action:Event_PlayerDisconnect(Handle:event, const String:name[], bool:don
 			return Plugin_Handled;
 		GetEventString(event, "name", szName, sizeof(szName));
 		GetEventString(event, "reason", disconnectReason, sizeof(disconnectReason));  
-		for (new i = 1; i <= MaxClients; i++)
-			if (IsValidClient(i) && i != client && !IsFakeClient(i))
-				PrintToChat(i, "%t", "Disconnected1",WHITE, MOSSGREEN, szName, WHITE, disconnectReason);	
+		
+		if (g_bVipClantag) {
+           
+            //                  HAS VIP                                         DOESNT HAVE ROOT                                                 DOESNT HAVE GENERIC
+            if ((GetUserFlagBits(client) & ADMFLAG_RESERVATION) && !(GetUserFlagBits(client) & ADMFLAG_ROOT) && !(GetUserFlagBits(client) & ADMFLAG_GENERIC)) {
+                for (new i = 1; i <= MaxClients; i++) {
+                    if (IsValidClient(i) && i != client) {
+                        PrintToChat(i, "%t", "Disconnected2", RED, MOSSGREEN, szName, WHITE, disconnectReason);
+                    }
+                }
+            }
+            // DO NOT HAVE VIP OR HAS ROOT
+            else
+            {
+                for (new i = 1; i <= MaxClients; i++) {
+                    if (IsValidClient(i) && i != client) {
+                        PrintToChat(i, "%t", "Disconnected1", WHITE, MOSSGREEN, szName, WHITE, disconnectReason);
+                    }
+                }
+            }
+        }
+        else
+        {
+            for (new i = 1; i <= MaxClients; i++) {
+                if (IsValidClient(i) && i != client) {
+                    PrintToChat(i, "%t", "Disconnected1", WHITE, MOSSGREEN, szName, WHITE, disconnectReason);
+					}
+				}
+			}
 		return Plugin_Handled;
 	}
-	else
+	else {
 		return Plugin_Continue;
+	}
 }
-
-public Action:Hook_SetTransmit(entity, client) 
-{ 
-    if (client != entity && (0 < entity <= MaxClients) && IsValidClient(client)) 
-	{
-		if (g_bChallenge[client] && !g_bHide[client])
-		{
-			if (!StrEqual(g_szSteamID[entity], g_szChallenge_OpponentID[client], false))
-				return Plugin_Handled;
-		}
-		else
-			if (g_bHide[client] && entity != g_SpecTarget[client])
-				return Plugin_Handled; 
-			else
-				if (entity == g_InfoBot && entity != g_SpecTarget[client])
-					return Plugin_Handled;
-	}	
-    return Plugin_Continue; 
-}  
 
 public Action:Event_OnPlayerDeath(Handle:event, const String:name[], bool:dontBroadcast)
 {
