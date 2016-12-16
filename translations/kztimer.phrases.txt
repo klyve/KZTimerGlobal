@@ -1,4 +1,4 @@
-﻿"Phrases"
+"Phrases"
 {
 	"Jumpstats_PersonalBest"
 	{
@@ -50,6 +50,10 @@
 	"options_lang_fr"
 	{
 		"en"       "Language - French"
+	}
+	"options_lang_fi"
+	{
+		"en"		"Language - Finnish"
 	}
 	"options_lang_ru"
 	{
@@ -1195,10 +1199,20 @@
 		"#format"   "{1:c},{2:c},{3:c},{4:c}"
 		"en"        "[{1}KZ{2}] Type {3}!help{4} in chat to get a list of KZTimer commands"
 	}
+	"Disconnected2"
+	{
+		"#format"	"{1:c},{2:c},{3:s},{4:c},{5:s}"
+		"en"		" {1}VIP {2}{3}{4} has left the game. ({5})"
+	}
 	"Disconnected1"
 	{
 		"#format"   "{1:c},{2:c},{3:s},{4:c},{5:s}"
 		"en"       "{1}Player {2}{3}{4} has left the game. ({5})"
+	}
+	"Connected3"
+	{
+		"#format"	"{1:c},{2:c},{3:s},{4:c},{5:c},{6:s}"
+		"en"		" {1}VIP {2}{3}{4} connected from {5}{6}"
 	}
 	"Connected2"
 	{
