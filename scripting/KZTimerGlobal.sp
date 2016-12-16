@@ -1375,49 +1375,72 @@ public OnClientDisconnect(client)
 	g_favVEL[client][2] = 0.0;
 }
 
-public OnClientAuthorized(client)
+public OnClientPostAdminCheck(client) // Changed OnClientAuthorized to OnClientPostAdminCheck, because Authorized doesnt check for flag bits
 {
-	if (g_bConnectMsg && !IsFakeClient(client))
-	{
-		decl String:s_Country[32];
-		decl String:s_clientName[32];
-		decl String:s_address[32];
-		GetClientIP(client, s_address, 32);
-		GetClientName(client, s_clientName, 32);
-		Format(s_Country, 100, "Unknown");
-		GeoipCountry(s_address, s_Country, 100);
-		if(!strcmp(s_Country, NULL_STRING))
-			Format( s_Country, 100, "Unknown", s_Country );
-		else
-			if( StrContains( s_Country, "United", false ) != -1 ||
-				StrContains( s_Country, "Republic", false ) != -1 ||
-				StrContains( s_Country, "Federation", false ) != -1 ||
-				StrContains( s_Country, "Island", false ) != -1 ||
-				StrContains( s_Country, "Netherlands", false ) != -1 ||
-				StrContains( s_Country, "Isle", false ) != -1 ||
-				StrContains( s_Country, "Bahamas", false ) != -1 ||
-				StrContains( s_Country, "Maldives", false ) != -1 ||
-				StrContains( s_Country, "Philippines", false ) != -1 ||
-				StrContains( s_Country, "Vatican", false ) != -1 )
-			{
-				Format( s_Country, 100, "The %s", s_Country );
-			}
-
-		if (StrEqual(s_Country, "Unknown",false) || StrEqual(s_Country, "Localhost",false))
-		{
-			for (new i = 1; i <= MaxClients; i++)
-			if (IsValidClient(i) && i != client)
-				PrintToChat(i, "%t", "Connected1", WHITE,MOSSGREEN, s_clientName, WHITE);
-		}
-		else
-		{
-			for (new i = 1; i <= MaxClients; i++)
-				if (IsValidClient(i) && i != client)
-					PrintToChat(i, "%t", "Connected2", WHITE, MOSSGREEN,s_clientName, WHITE,GREEN,s_Country);
-		}
-	}
+    if (g_bConnectMsg && !IsFakeClient(client))
+    {
+        decl String:s_Country[32];
+        decl String:s_clientName[32];
+        decl String:s_address[32];
+        GetClientIP(client, s_address, 32);
+        GetClientName(client, s_clientName, 32);
+        Format(s_Country, 100, "Unknown");
+        GeoipCountry(s_address, s_Country, 100);
+        if (!strcmp(s_Country, NULL_STRING))
+            Format(s_Country, 100, "Unknown", s_Country);
+        else
+            if (StrContains(s_Country, "United", false) != -1 ||
+            StrContains(s_Country, "Republic", false) != -1 ||
+            StrContains(s_Country, "Federation", false) != -1 ||
+            StrContains(s_Country, "Island", false) != -1 ||
+            StrContains(s_Country, "Netherlands", false) != -1 ||
+            StrContains(s_Country, "Isle", false) != -1 ||
+            StrContains(s_Country, "Bahamas", false) != -1 ||
+            StrContains(s_Country, "Maldives", false) != -1 ||
+            StrContains(s_Country, "Philippines", false) != -1 ||
+            StrContains(s_Country, "Vatican", false) != -1)
+        {
+            Format(s_Country, 100, "The %s", s_Country);
+        }
+       
+        if (StrEqual(s_Country, "Unknown", false) || StrEqual(s_Country, "Localhost", false))
+        {
+            for (new i = 1; i <= MaxClients; i++) {
+                if (IsValidClient(i) && i != client) {
+                    PrintToChat(i, "%t", "Connected1", WHITE, MOSSGREEN, s_clientName, WHITE);
+                }
+            }
+        }
+        if (g_bVipClantag) {
+           
+            //                  HAS VIP                                         DOESNT HAVE ROOT                                                 DOESNT HAVE GENERIC
+            if ((GetUserFlagBits(client) & ADMFLAG_RESERVATION) && !(GetUserFlagBits(client) & ADMFLAG_ROOT) && !(GetUserFlagBits(client) & ADMFLAG_GENERIC)) {
+                for (new i = 1; i <= MaxClients; i++) {
+                    if (IsValidClient(i) && i != client) {
+                        PrintToChat(i, "%t", "Connected3", RED, MOSSGREEN, s_clientName, WHITE, GREEN, s_Country);
+                    }
+                }
+            }
+            // DO NOT HAVE VIP OR HAS ROOT
+            else
+            {
+                for (new i = 1; i <= MaxClients; i++) {
+                    if (IsValidClient(i) && i != client) {
+                        PrintToChat(i, "%t", "Connected2", WHITE, MOSSGREEN, s_clientName, WHITE, GREEN, s_Country);
+                    }
+                }
+            }
+        }
+        else
+        {
+            for (new i = 1; i <= MaxClients; i++) {
+                if (IsValidClient(i) && i != client) {
+                    PrintToChat(i, "%t", "Connected2", WHITE, MOSSGREEN, s_clientName, WHITE, GREEN, s_Country);
+                }
+            }
+        }
+    }
 }
-
 public OnSettingChanged(Handle:convar, const String:oldValue[], const String:newValue[])
 {
 	if(convar == g_hGoToServer)
