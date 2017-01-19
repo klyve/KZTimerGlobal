@@ -365,7 +365,7 @@
        {
 
 
-               "fi"       "Värillinen chatti (hyppytilastot)  -  Kaikki"
+               "fi"       "Värillinen chatti (hyppytiedot)  -  Kaikki"
 
 
        }
@@ -377,7 +377,7 @@
        {
 
 
-               "fi"       "Värillinen chatti (hyppytilastot)  -  Vain omat punaiset hypyt"
+               "fi"       "Värillinen chatti (hyppytiedot)  -  Vain omat punaiset hypyt"
 
 
        }
