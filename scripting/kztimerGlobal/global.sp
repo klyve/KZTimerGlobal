@@ -72,10 +72,10 @@ ConnectToGlobalDB()
 	new Handle:kv = INVALID_HANDLE;
 	kv = CreateKeyValues("");
 	KvSetString(kv, "driver", "mysql");
-	KvSetString(kv, "host", "global.kztimer.com");
+	KvSetString(kv, "host", "127.0.0.1");
 	KvSetString(kv, "port", "3306");
-	KvSetString(kv, "database", "kztimerglobal");
-	KvSetString(kv, "user", "kztimerplugin");
+	KvSetString(kv, "database", "hoc_comp");
+	KvSetString(kv, "user", "kztimerglobal");
 	KvSetString(kv, "pass", "hKCZrdxZfgeXs5wg");
 
 
@@ -285,7 +285,7 @@ public sqlglobal_VersionCheckCallback(Handle:owner, Handle:hndl, const String:er
 					g_global_Disabled=true;
 				else
 					g_global_Disabled=false;
-				g_global_VersionBlocked = true;
+				//g_global_VersionBlocked = true;
 			}
 			decl String:sPath[PLATFORM_MAX_PATH];
 			BuildPath(Path_SM, sPath, sizeof(sPath), "%s", SMX_PATH);

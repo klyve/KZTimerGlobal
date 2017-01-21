@@ -63,14 +63,14 @@
 #define SF_BUTTON_TOUCH_ACTIVATES (1<<8)
 #define SF_DOOR_PTOUCH (1<<10)
 #define BM_MAGIC 0xBAADF00D
-#define BINARY_FORMAT_VERSION 0x01
+#define BINARY_FORMAT_VERSION 0x02
 #define ADDITIONAL_FIELD_TELEPORTED_ORIGIN (1<<0)
 #define ADDITIONAL_FIELD_TELEPORTED_ANGLES (1<<1)
 #define ADDITIONAL_FIELD_TELEPORTED_VELOCITY (1<<2)
 #define FRAME_INFO_SIZE 15
 #define AT_SIZE 10
 #define ORIGIN_SNAPSHOT_INTERVAL 150
-#define FILE_HEADER_LENGTH 74
+#define FILE_HEADER_LENGTH 138 // 74
 #define SOURCEBANS_AVAILABLE()	(GetFeatureStatus(FeatureType_Native, "SBBanPlayer") == FeatureStatus_Available)
 #define MANIFEST_FOLDER         "maps/"
 #define MANIFEST_EXTENSION      "_particles.txt"
@@ -102,6 +102,8 @@ enum AdditionalTeleport
 enum FileHeader
 {
 	FH_binaryFormatVersion = 0,
+	String:FH_player_ip[32],
+	String:FH_steamID[32],
 	String:FH_Time[32],
 	String:FH_Playername[32],
 	FH_Checkpoints,

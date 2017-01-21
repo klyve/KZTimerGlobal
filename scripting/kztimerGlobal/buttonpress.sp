@@ -363,6 +363,7 @@ public CL_OnEndTimerPress(client)
 		
 	}
 	
+	
 	//NEW PRO RECORD
 	if((g_fFinalTime[client] < g_fRecordTimePro) && g_Tp_Final[client] <= 0)
 	{
@@ -408,7 +409,7 @@ public CL_OnEndTimerPress(client)
 		}
 		db_InsertLatestRecords(g_szSteamID[client], szName, g_fFinalTime[client], g_Tp_Final[client]);	
 	}
-	
+
 	Call_StartForward(g_hFWD_TimerStopped);
 	Call_PushCell(client);
 	Call_PushCell(g_Tp_Final[client]);
