@@ -2247,12 +2247,19 @@ public Prestrafe(client, Float: ang, &buttons)
 			SetEntPropFloat(client, Prop_Send, "m_flVelocityModifier", flDefaultKnifeSpeed);
 		return;
 	}
+	
 	// get turning direction
-	if( ang < g_fLastAngles[client][1])
+	// Fixed for  -180 180 wrap
+	float eye_angle_change = ang - g_fLastAngles[client][1];
+	if(eye_angle_change < -180)  
+		eye_angle_change += 360;
+	if (eye_angle_change > 180)
+		eye_angle_change -= 360;
+	
+	if(eye_angle_change < 0)
 		turning_right = true;
-	else
-		if( ang > g_fLastAngles[client][1])
-			turning_left = true;
+	else if(eye_angle_change > 0)
+		turning_left = true;
 
 	//get moving direction
 	if (GetClientMovingDirection(client,false) > 0.0)

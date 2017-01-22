@@ -944,9 +944,21 @@ public Action:OnPlayerRunCmd(client, &buttons, &impulse, Float:vel[3], Float:ang
 		LjBlockCheck(client,origin);
 		SetPlayerBeam(client, origin);
 
-		//Bhop AntiCheat
+		
 		static bool:bHoldingJump[MAXPLAYERS + 1];
 		static bLastOnGround[MAXPLAYERS + 1];
+
+		//Crouch spam fix by DanZay
+		//CSGO update changed crouch so that it can't be spammed but we like spamming crouch
+		float DuckSpeed = GetEntPropFloat(client, Prop_Data, "m_flDuckSpeed");
+
+		if (!bLastOnGround[client] && (GetEntityFlags(client) & FL_ONGROUND)){
+			if(DuckSpeed < 7){
+				SetEntPropFloat(client, Prop_Send, "m_flDuckSpeed", 7.0, 0);
+			}
+		}
+
+		//Bhop AntiCheat
 		if(buttons & IN_JUMP)
 		{
 			if(!bHoldingJump[client])

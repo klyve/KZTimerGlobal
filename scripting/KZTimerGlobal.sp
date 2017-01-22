@@ -152,7 +152,7 @@ new Handle:g_hMaxRounds = INVALID_HANDLE;
 new Handle:g_hEnableBunnyhoping = INVALID_HANDLE;
 new Handle:g_hsv_ladder_scale_speed = INVALID_HANDLE;
 
-
+//Test
 new Handle:g_hAutoBhop = INVALID_HANDLE;
 new Handle:g_hClampVel = INVALID_HANDLE;
 
