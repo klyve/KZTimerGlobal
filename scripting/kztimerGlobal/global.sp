@@ -75,7 +75,7 @@ ConnectToGlobalDB()
 	KvSetString(kv, "host", "127.0.0.1");
 	KvSetString(kv, "port", "3306");
 	KvSetString(kv, "database", "hoc_comp");
-	KvSetString(kv, "user", "kztimerglobal");
+	KvSetString(kv, "user", "kztimerplugin");
 	KvSetString(kv, "pass", "hKCZrdxZfgeXs5wg");
 
 

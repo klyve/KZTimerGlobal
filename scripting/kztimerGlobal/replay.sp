@@ -141,8 +141,6 @@ char CreateRecordFileName(int client, int type){
 
 	Format(new_record_filename, sizeof(new_record_filename), "%s%s_%s_%i_%s.rec",KZ_REPLAY_PATH, g_szMapName, string_client_auth,  time_in_ms, record_type)		
 	 
-	 PrintToChatAll(new_record_filename);
-	 
 	return new_record_filename;
 }
 
