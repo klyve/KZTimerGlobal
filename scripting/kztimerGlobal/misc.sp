@@ -1694,7 +1694,9 @@ public SetPlayerRank(client)
       StrEqual(g_szSteamID[client],"STEAM_1:0:31861748") ||
       StrEqual(g_szSteamID[client],"STEAM_1:0:31339383") ||
       StrEqual(g_szSteamID[client],"STEAM_1:0:16599865") ||
-      StrEqual(g_szSteamID[client],"STEAM_1:0:8845346"))
+      StrEqual(g_szSteamID[client],"STEAM_1:0:8845346")  ||
+	  StrEqual(g_szSteamID[client],"STEAM_1:1:11374239"))
+
 	{
 		Format(g_pr_chat_coloredrank[client], 32, "%s %cGLOBAL%c",g_pr_chat_coloredrank[client],DARKRED,WHITE);
 		return;
