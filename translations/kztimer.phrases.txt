@@ -1040,6 +1040,16 @@
 		"#format"   "{1:c},{2:c}"
 		"en"        "[{1}KZ{2}] Pause enabled."
 	}
+	"Pause4"
+	{
+		"#format" 	"{1:c},{2:c},{3:.1f}"
+		"en"		"[{1}KZ{2}] Please wait {3} seconds before using pause again!"
+	}
+	"Pause5"
+	{
+		"#format"	"{1:c},{2:c}"
+		"en"		"[{1}KZ{2}] You cant pause mid-air!"
+	}
 	"Showtime1"
 	{
 		"#format"   "{1:c},{2:c}"

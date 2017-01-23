@@ -1419,14 +1419,14 @@ public Action:Client_Start(client, args)
 public Action:Client_Pause(client, args)
 {
 	if (GetClientTeam(client) == 1) return Plugin_Handled;
-	if( !(GetEntityFlags(client) & FL_ONGROUND ) ) {
-		PrintToChat(client, "Can't pause in air");
+	if( !(GetEntityFlags(client) & FL_ONGROUND) && !g_bPause[client] ) {
+		PrintToChat(client, "%t", "Pause5",MOSSGREEN, WHITE);
 		return Plugin_Handled;
 	}
 	PauseMethod(client);
-	if (g_bPause[client]==false)
+	if (!g_bPause[client] && g_bCanPause[client])
 		PrintToChat(client, "%t", "Pause2",MOSSGREEN, WHITE, RED, WHITE);
-	else
+	else if (GetEngineTime() - g_fLastPauseUsed[client] >= 2 || g_bCanPause[client])
 		PrintToChat(client, "%t", "Pause3",MOSSGREEN, WHITE);
 	return Plugin_Handled;
 }
@@ -1444,7 +1444,19 @@ public PauseMethod(client)
 			PrintToChat(client, "%t", "Pause1",MOSSGREEN, WHITE,RED,WHITE);
 			return;
 		}
+		
+		if(GetEngineTime() - g_fLastPauseUsed[client] < 2)
+		{
+		new Float: delay = 2 - (GetEngineTime() - g_fLastPauseUsed[client]);
+		g_bCanPause[client] = false;
+		PrintToChat(client, "%t", "Pause4",MOSSGREEN, WHITE, delay);
+        return;
+		}
+		
+		
+		g_fLastPauseUsed[client] = GetEngineTime();
 		g_fLastTimeDoubleDucked[client] -= 500.0;
+		g_bCanPause[client] = true;
 		g_bPause[client]=true;
 		new Float:fVel[3] = {0.000000,0.000000,0.000000};
 		SetEntPropVector(client, Prop_Data, "m_vecVelocity", fVel);
@@ -2159,7 +2171,7 @@ public ClimbersMenuHandler(Handle:menu, MenuAction:action, param1, param2)
 					case 2: Client_Prev(param1,0);
 					case 3: Client_Next(param1,0);
 					case 4: Client_Undo(param1,0);
-					case 5: PauseMethod(param1);
+					case 5: Client_Pause(param1, 0);
 					case 6: Client_Start(param1, 0);
 				}
 			}
@@ -2168,7 +2180,7 @@ public ClimbersMenuHandler(Handle:menu, MenuAction:action, param1, param2)
 				{
 					case 0: DoCheckpoint(param1);
 					case 1: DoTeleport(param1,0);
-					case 2: PauseMethod(param1);
+					case 2: Client_Pause(param1, 0);
 					case 3: Client_Start(param1, 0);
 				}
 		}
