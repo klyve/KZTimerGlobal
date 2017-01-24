@@ -1450,7 +1450,7 @@ public PauseMethod(client)
 		new Float: delay = 2 - (GetEngineTime() - g_fLastPauseUsed[client]);
 		g_bCanPause[client] = false;
 		PrintToChat(client, "%t", "Pause4",MOSSGREEN, WHITE, delay);
-        return;
+		return;
 		}
 		
 		
