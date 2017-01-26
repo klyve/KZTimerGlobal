@@ -2144,7 +2144,7 @@ public PlayQuakeSound_Spec(client, String:buffer[255])
 				new Target = GetEntPropEnt(x, Prop_Send, "m_hObserverTarget");
 				if (Target == client)
 				{
-					if ((god == false && g_EnableQuakeSounds[x] == 1) || (god == true && g_EnableQuakeSounds[x] >= 1)  && (god == false && g_ColorChat[x] == 1) || (god == true && g_ColorChat[x] >= 1))
+					if ((god == false && g_EnableQuakeSounds[x] == 1) || (god == true && g_EnableQuakeSounds[x] <= 1)  && (god == false && g_ColorChat[x] == 1) || (god == true && g_ColorChat[x] >= 1))
 						ClientCommand(x, buffer);
 				}
 			}
