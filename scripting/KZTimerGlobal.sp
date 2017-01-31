@@ -851,15 +851,6 @@ public OnPluginStart()
 	SetServerConvars();
 	SetSoundPath();
 
-	//Credits: Measure by DaFox
-	//https://forums.alliedmods.net/showthread.php?t=88830
-	g_hMainMenu = CreateMenu(Handler_MainMenu)
-	SetMenuTitle(g_hMainMenu,"KZTimer - Measure")
-	AddMenuItem(g_hMainMenu,"","Point 1 (Red)")
-	AddMenuItem(g_hMainMenu,"","Point 2 (Green)")
-	AddMenuItem(g_hMainMenu,"","Find Distance")
-	AddMenuItem(g_hMainMenu,"","Reset")
-
 	//admin menu
 	new Handle:topmenu;
 	if (LibraryExists("adminmenu") && ((topmenu = GetAdminTopMenu()) != INVALID_HANDLE))
@@ -1058,10 +1049,6 @@ public OnMapStart()
 	GetCurrentMap(g_szMapName, 128);
 	Format(g_szMapPath, sizeof(g_szMapPath), "maps/%s.bsp", g_szMapName);
 	fileFound = FileExists(g_szMapPath);
-
-
-	//new Filesize =  FileSize(g_szMapPath);
-	//LogError( "filesize: %i map: %s", Filesize,g_szMapPath)
 
 	//workshop fix
 	new String:mapPieces[6][128];

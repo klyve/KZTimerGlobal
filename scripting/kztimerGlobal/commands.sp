@@ -29,9 +29,9 @@ public Action:Command_Specs(client, args)
 		}
 	}
 	if (count > 0)
-		PrintToChat(client," %c>>%c Spectators (%c%i%c):%c %s",YELLOW,GRAY,LIMEGREEN,count,GRAY,WHITE,szNameList);
+		PrintToChat(client, "%T", "SpectatorMessage1", YELLOW,GRAY,LIMEGREEN,count,GRAY,WHITE,szNameList);
 	else
-		PrintToChat(client," %c>>%c Spectators (%c%i%c)",YELLOW,GRAY,LIMEGREEN,count,GRAY);
+		PrintToChat(client, "%T", "SpectatorMessage2", YELLOW,GRAY,LIMEGREEN,count,GRAY);
 
 	return Plugin_Handled;
 }
@@ -39,7 +39,7 @@ public Action:Command_Specs(client, args)
 
 public Action:Client_RankingSystem(client, args)
 {
-	PrintToChat(client,"[%cKZ%c]%c Loading html page.. (requires cl_disablehtmlmotd 0)", MOSSGREEN,WHITE,LIMEGREEN);
+	PrintToChat(client, "%t", "RankingSystem", MOSSGREEN,WHITE,LIMEGREEN);
 	ShowMOTDPanel(client, "rankingsystem" ,"http://kuala-lumpur-court-8417.pancakeapps.com/ranking_index.html", 2);
 	return Plugin_Handled;
 }
@@ -65,10 +65,14 @@ public Action:Client_Wr(client, args)
 
 public LJBlockMenu(client)
 {
+	decl String:buffer[32];
 	new Handle:ljblockmenu = CreateMenu(LjBlockMenuHandler);
-	SetMenuTitle(ljblockmenu, "KZTimer - Block Jump");
-	AddMenuItem(ljblockmenu, "0", "Select Destination");
-	AddMenuItem(ljblockmenu, "0", "Reset Destination");
+	Format(buffer, sizeof(buffer), "%T", "BlockMenuTitle", client);
+	SetMenuTitle(ljblockmenu, buffer); 
+	Format(buffer, sizeof(buffer), "%T", "BlockMenu_SelectDest", client);
+	AddMenuItem(ljblockmenu, "0", buffer);
+	Format(buffer, sizeof(buffer), "%T", "BlockMenu_ResetDest", client);
+	AddMenuItem(ljblockmenu, "0", buffer);
 	SetMenuOptionFlags(ljblockmenu, MENUFLAG_BUTTON_EXIT);
 	g_bMenuOpen[client]=true;
 	DisplayMenu(ljblockmenu, client, MENU_TIME_FOREVER);
@@ -105,7 +109,7 @@ public Action:Command_Stats(client, args)
 {
 	if (args < 1)
 	{
-	ReplyToCommand(client, "[%cKZ%c] Usage: !bhopcheck <name> | @all | @me",MOSSGREEN,WHITE);
+	ReplyToCommand(client, "%t", "Macrodox_Usage", MOSSGREEN,WHITE);
 	return Plugin_Handled;
 	}
 	decl String:arg[65];
@@ -122,11 +126,11 @@ public Action:Command_Stats(client, args)
 	sizeof(target_name),
 	tn_is_ml)) <= 0)
 	{
-	PrintToConsole(client, "Not found or invalid parameter.");
+	PrintToConsole(client, "%t", "Macrodox_InvalidParam");
 	return Plugin_Handled;
 	}
 	if (target_count > 3)
-	PrintToChat(client, "[%cKZ%c] See console for output!", MOSSGREEN,WHITE);
+	PrintToChat(client, "%t", "MacrodoxOutput", MOSSGREEN,WHITE);
 	for (new i = 0; i < target_count; i++)
 	{
 	if (target_count > 3)
@@ -145,14 +149,20 @@ public Action:Client_Challenge(client, args)
 		{
 			g_bMenuOpen[client]=true;
 			new Handle:challengemenu = CreateMenu(ChallengeMenuHandler1);
+			decl String:buffer[128];
 			if (g_bAllowCheckpoints)
 			{
-				SetMenuTitle(challengemenu, "KZTimer - Challenge: Checkpoints?");
-				AddMenuItem(challengemenu, "Yes", "Yes");
+				SetMenuTitle(challengemenu, "%t", "Challenge_TitleCP");
+				Format(buffer, sizeof(buffer), "%T", "Challenge_CP_YES", client);
+				AddMenuItem(challengemenu, "Yes", buffer);
 			}
 			else
-				SetMenuTitle(challengemenu, "KZTimer - Challenge: Checkpoints?\nCheckpoints disabled");
-			AddMenuItem(challengemenu, "No", "No");
+			{
+				SetMenuTitle(challengemenu, "%t", "Challenge_TitleNoCP");
+			}
+
+			Format(buffer, sizeof(buffer), "%T", "Challenge_CP_No", client);
+			AddMenuItem(challengemenu, "No", buffer);
 			SetMenuOptionFlags(challengemenu, MENUFLAG_BUTTON_EXIT);
 			DisplayMenu(challengemenu, client, MENU_TIME_FOREVER);
 		}
@@ -169,6 +179,7 @@ public ChallengeMenuHandler1(Handle:challengemenu, MenuAction:action, param1,par
 	if(action == MenuAction_Select)
 	{
 		decl String:info[32];
+		decl String:buffer[64];
 		GetMenuItem(challengemenu, param2, info, sizeof(info));
 		if(StrEqual(info,"Yes"))
 			g_bChallenge_Checkpoints[param1]=true;
@@ -178,11 +189,12 @@ public ChallengeMenuHandler1(Handle:challengemenu, MenuAction:action, param1,par
 		g_bMenuOpen[param1]=true;
 		decl String:tmp[64];
 		if (g_bPointSystem)
-			Format(tmp, 64, "KZTimer - Challenge: Player Bet?\nYour Points: %i", g_pr_points[param1]);
+			Format(tmp, 64, "%t", "Challenge_Bets", g_pr_points[param1]);
 		else
-			Format(tmp, 64, "KZTimer - Challenge: Player Bet?\nPlayer point system disabled", g_pr_points[param1]);
+			Format(tmp, 64, "%t", "Challenge_PointsDisabled", g_pr_points[param1]);
 		SetMenuTitle(menu2, tmp);
-		AddMenuItem(menu2, "0", "No bet");
+		Format(buffer, sizeof(buffer), "%t", "Challenge_NoBet");
+		AddMenuItem(menu2, "0", buffer);
 		if (g_bPointSystem)
 		{
 			Format(tmp, 64, "%i", g_pr_PointUnit*50);
@@ -234,7 +246,7 @@ public ChallengeMenuHandler2(Handle:challengemenu, MenuAction:action, param1,par
 						g_Challenge_Bet[param1] = 0;
 		decl String:szPlayerName[MAX_NAME_LENGTH];
 		new Handle:menu2 = CreateMenu(ChallengeMenuHandler3);
-		SetMenuTitle(menu2, "KZTimer - Challenge: Select your Opponent");
+		SetMenuTitle(menu2, "%t", "Challenge_SelectOpponent");
 		new playerCount=0;
 		for (new i = 1; i <= MaxClients; i++)
 		{
@@ -295,9 +307,9 @@ public ChallengeMenuHandler3(Handle:challengemenu, MenuAction:action, param1,par
 							Format(g_szChallenge_OpponentID[param1], 32, szSteamId);
 							decl String:cp[16];
 							if (g_bChallenge_Checkpoints[param1])
-								Format(cp, 16, " allowed");
+								Format(cp, 16, "%t", "CP_Allowed");
 							else
-								Format(cp, 16, " forbidden");
+								Format(cp, 16, "%t", "CP_Forbidden");
 							new value = g_pr_PointUnit * g_Challenge_Bet[param1];
 							PrintToChat(param1, "%t", "Challenge1", RED,WHITE, YELLOW, szTargetName, value,cp);
 							//target msg
@@ -335,12 +347,12 @@ public Action:Client_Abort(client, args)
 		if (g_bChallenge_Abort[client])
 		{
 			g_bChallenge_Abort[client]=false;
-			PrintToChat(client, "[%cKZ%c] You have disagreed to abort the challenge.",RED,WHITE);
+			PrintToChat(client, "%T", "Challenge_Disagree_Abort", RED,WHITE);
 		}
 		else
 		{
 			g_bChallenge_Abort[client]=true;
-			PrintToChat(client, "[%cKZ%c] You have agreed to abort the challenge. Waiting for your opponent..",RED,WHITE, GREEN);
+			PrintToChat(client, "%T", "Challenge_Agree_Abort", RED, WHITE);
 		}
 	}
 	return Plugin_Handled;
@@ -383,12 +395,12 @@ public Action:Client_Accept(client, args)
 				GetClientName(client, szPlayer2, MAX_NAME_LENGTH);
 
 				if (g_bChallenge_Checkpoints[i])
-					Format(szCP, sizeof(szCP), "Allowed");
+					Format(szCP, sizeof(szCP), "%t", "CP_Allowed2");
 				else
-					Format(szCP, sizeof(szCP), "Forbidden");
+					Format(szCP, sizeof(szCP), "%t", "CP_Forbidden2");
 				new points = g_Challenge_Bet[i]*2*g_pr_PointUnit;
-				PrintToChatAll("[%cKZ%c] Challenge: %c%s%c vs. %c%s%c",RED,WHITE,MOSSGREEN,szPlayer1,WHITE,MOSSGREEN,szPlayer2,WHITE);
-				PrintToChatAll("[%cKZ%c] Checkpoints: %c%s%c, Pot: %c%ip",RED,WHITE,GRAY,szCP,WHITE,GRAY,points);
+				PrintToChatAll("%T", "Challenge5", RED,WHITE,MOSSGREEN,szPlayer1,WHITE,MOSSGREEN,szPlayer2,WHITE);
+				PrintToChatAll("%T", "Challenge6", RED,WHITE,GRAY,szCP,WHITE,GRAY,points);
 
 				new r1 = GetRandomInt(55, 255);
 				new r2 = GetRandomInt(55, 255);
@@ -535,7 +547,7 @@ public Action:Client_Surrender (client, args)
 						new lostpoints = g_Challenge_Bet[client] * g_pr_PointUnit;
 						for (new j = 1; j <= MaxClients; j++)
 							if (IsValidClient(j) && IsValidEntity(j))
-								PrintToChat(j, "[%cKZ%c] %c%s%c has lost %c%i %cpoints!", MOSSGREEN, WHITE, PURPLE,szName, GRAY, RED, lostpoints,GRAY);
+								PrintToChat(j, "%T", "Challenge_Lost_Points", MOSSGREEN, WHITE, PURPLE,szName, GRAY, RED, lostpoints,GRAY);
 					}
 					//db update
 					CreateTimer(0.0, UpdatePlayerProfile, i,TIMER_FLAG_NO_MAPCHANGE);
@@ -711,7 +723,7 @@ public Action:NoClip(client, args)
 	{
 		if (!g_bMapFinished[client])
 		{
-			//BEST RANK || ADMIN || VIP
+			//BEST RANK || ADMIN || VIP || MAPPER
 			if ((StrEqual(g_pr_rankname[client],g_szSkillGroups[8]) || StrEqual(g_pr_rankname[client],"MAPPER") || GetUserFlagBits(client) & ADMFLAG_RESERVATION || GetUserFlagBits(client) & ADMFLAG_ROOT || GetUserFlagBits(client) & ADMFLAG_GENERIC) && !g_bNoClip[client])
 				Action_NoClip(client);
 			else
@@ -801,6 +813,23 @@ public Action:Client_Spec(client, args)
 //https://forums.alliedmods.net/showthread.php?t=88830?t=88830
 public Action:Command_Menu(client,args)
 {
+	//Credits: Measure by DaFox
+	//https://forums.alliedmods.net/showthread.php?t=88830
+	
+	decl String:buffer[64];
+	
+	g_hMainMenu = CreateMenu(Handler_MainMenu)
+	Format(buffer, sizeof(buffer), "%T", "MeasureMenuTitle", client);
+	SetMenuTitle(g_hMainMenu, buffer);
+	Format(buffer, sizeof(buffer), "%T", "Measure_Point1", client);
+	AddMenuItem(g_hMainMenu, "", buffer);
+	Format(buffer, sizeof(buffer), "%T", "Measure_Point2", client);
+	AddMenuItem(g_hMainMenu, "", buffer);
+	Format(buffer, sizeof(buffer), "%T", "Measure_FindDist", client);
+	AddMenuItem(g_hMainMenu, "", buffer);
+	Format(buffer, sizeof(buffer), "%T", "Measure_Reset", client);
+	AddMenuItem(g_hMainMenu, "", buffer);
+	
 	StopClimbersMenu(client);
 	g_bMenuOpen[client]=true;
 	CreateTimer(0.1, OpenMeasureMenu, client,TIMER_FLAG_NO_MAPCHANGE);
@@ -858,9 +887,9 @@ public SpecPlayer(client,args)
 		new Handle:menu = CreateMenu(SpecMenuHandler);
 
 		if(g_bSpectate[client])
-			SetMenuTitle(menu, "KZTimer - Spec Menu (press 'm' to rejoin a team!)");
+			SetMenuTitle(menu, "%t", "SpecMenu1");
 		else
-			SetMenuTitle(menu, "KZTimer - Spec Menu");
+			SetMenuTitle(menu, "%t", "SpecMenu2");
 		new playerCount=0;
 
 		//add replay bots
@@ -868,13 +897,13 @@ public SpecPlayer(client,args)
 		{
 			if (g_ProBot != -1 && IsValidClient(g_ProBot) && IsPlayerAlive(g_ProBot))
 			{
-				Format(szPlayerName2, 128, "Pro Record Replay (%s)",g_szReplayTime);
+				Format(szPlayerName2, 128, "%t", "ProRecord_Replay", g_szReplayTime);
 				AddMenuItem(menu, "PRO RECORD REPLAY", szPlayerName2);
 				playerCount++;
 			}
 			if (g_TpBot != -1 && IsValidClient(g_TpBot) && IsPlayerAlive(g_TpBot))
 			{
-				Format(szPlayerName2, 128, "TP Record Replay (%s)",g_szReplayTimeTp);
+				Format(szPlayerName2, 128, "%t", "TPRecord_Replay", g_szReplayTimeTp);
 				AddMenuItem(menu, "TP RECORD REPLAY", szPlayerName2);
 				playerCount++;
 			}
@@ -928,7 +957,7 @@ public SpecPlayer(client,args)
 					}
 					//add rank
 					decl String:szMenu[128];
-					Format (szMenu,128,"%s [Top Ranked Player] - #%i",szTopName, bestrank);
+					Format (szMenu,128,"%t", "TopRankedPlayer", szTopName, bestrank);
 					AddMenuItem(menu, "best_playertop", szMenu);
 
 					//add time
@@ -939,7 +968,7 @@ public SpecPlayer(client,args)
 
 					if (fl_besttime < 999999999.0)
 					{
-						Format (szMenu,128,"%s [Top Ranked On Map] - #%i, %s",szTopMapName, maprank, szTime);
+						Format(szMenu, 128, "%t", "TopRankedOnMap", szTopMapName, maprank, szTime);
 						AddMenuItem(menu, szId, szMenu);
 					}
 					AddMenuItem(menu, "", "",ITEMDRAW_SPACER);
@@ -1092,7 +1121,7 @@ public CompareMenu(client,args)
 	{
 		Format(szPlayerName, MAX_NAME_LENGTH, "");
 		new Handle:menu = CreateMenu(CompareSelectMenuHandler);
-		SetMenuTitle(menu, "KZTimer - Compare Menu");
+		SetMenuTitle(menu, "%t", "CompareMenuTitle");
 		new playerCount=0;
 		for (new i = 1; i <= MaxClients; i++)
 		{
@@ -1110,7 +1139,7 @@ public CompareMenu(client,args)
 			DisplayMenu(menu, client, MENU_TIME_FOREVER);
 		}
 		else
-			PrintToChat(client,"[%cKZ%c] No valid players found",MOSSGREEN,WHITE);
+			PrintToChat(client, "%t", "Compare_NoValidPlayers", MOSSGREEN,WHITE);
 		return;
 	}
 	else
@@ -1207,7 +1236,7 @@ public ProfileMenu(client,args)
 	{
 		decl String:szPlayerName[MAX_NAME_LENGTH];
 		new Handle:menu = CreateMenu(ProfileSelectMenuHandler);
-		SetMenuTitle(menu, "KZTimer - Profile Menu");
+		SetMenuTitle(menu, "%t", "ProfileMenuTitle");
 		GetClientName(client, szPlayerName, MAX_NAME_LENGTH);
 		AddMenuItem(menu, szPlayerName, szPlayerName);
 		new playerCount=1;
@@ -1669,7 +1698,7 @@ public Action:Client_GoTo(client, args)
 		if (args==0)
 		{
 			new Handle:menu = CreateMenu(GoToMenuHandler);
-			SetMenuTitle(menu, "KZTimer - Goto");
+			SetMenuTitle(menu, "%t", "GoToMenuTitle");
 			new playerCount=0;
 			for (new i = 1; i <= MaxClients; i++)
 			{
@@ -1867,7 +1896,7 @@ public DoCheckpoint(client)
 	if (StrEqual("kzpro", g_szMapPrefix[0]) && g_bTimeractivated[client])
 	{
 		EmitSoundToClient(client,"buttons/button10.wav",client);
-		PrintToChat(client, "[%cKZ%c] %cCheckpoint not supported while your timer is running (kzpro_ map)", MOSSGREEN,WHITE,RED);
+		PrintToChat(client, "%T", "KZPro_NotSupported", MOSSGREEN,WHITE,RED);
 		return;
 	}
 
@@ -2011,7 +2040,7 @@ public Action_NoClip(client)
 			{
 				if (g_bTimeractivated[client])
 				{
-					PrintToConsole(client, "[KZ] Timer stopped. Reason: +noclip used.");
+					PrintToConsole(client, "%t", "TimerStopped_Noclip");
 					g_bTimeractivated[client] = false;
 					g_fStartTime[client] = -1.0;
 					g_fCurrentRunTime[client] = -1.0;
@@ -2057,7 +2086,7 @@ public ClimbersMenu(client)
 		return;
 	}
 	g_bClimbersMenuOpen[client] = true;
-	decl String:buffer[32];
+	decl String:buffer[64];
 	decl String:title[128];
 	g_hclimbersmenu[client] = CreateMenu(ClimbersMenuHandler);
 	if (g_bTimeractivated[client])
@@ -2232,22 +2261,43 @@ public ClimbersMenuHandler(Handle:menu, MenuAction:action, param1, param2)
 
 public KZTopMenu(client)
 {
+	decl String:buffer[64];
+
 	g_MenuLevel[client]=-1;
 	g_bTopMenuOpen[client]=true;
 	g_bClimbersMenuOpen[client]=false;
 	new Handle:topmenu = CreateMenu(TopMenuHandler);
-	SetMenuTitle(topmenu, "KZTimer - Top Menu");
+	SetMenuTitle(topmenu, "%t", "TopMenuTitle");
 	if (g_bPointSystem)
-		AddMenuItem(topmenu, "Top 100 Players", "Top 100 Players");
-	AddMenuItem(topmenu, "Top 5 Challengers", "Top 5 Challengers");
-	AddMenuItem(topmenu, "Top 5 Pro Jumpers", "Top 5 Pro Jumpers");
+	{
+	Format(buffer, sizeof(buffer), "%T", "Top100Players", client);
+	AddMenuItem(topmenu, "Top 100 Players", buffer);
+	}
+
+	Format(buffer, sizeof(buffer), "%T", "Top5Challengers", client);
+	AddMenuItem(topmenu, "Top 5 Challengers", buffer);
+	Format(buffer, sizeof(buffer), "%T", "Top5ProJumpers", client);
+	AddMenuItem(topmenu, "Top 5 Pro Jumpers", buffer);
 	if (g_bAllowCheckpoints)
-		AddMenuItem(topmenu, "Top 5 TP Jumpers", "Top 5 TP Jumpers");
+	{
+		Format(buffer, sizeof(buffer), "%T", "Top5TPJumpers", client);
+		AddMenuItem(topmenu, "Top 5 TP Jumpers", buffer);
+	}
+
 	else
-		AddMenuItem(topmenu, "Top 5 TP Jumpers", "Top 5 TP Jumpers",ITEMDRAW_DISABLED);
-	AddMenuItem(topmenu, "Map Top", "Map Top");
+	{
+		Format(buffer, sizeof(buffer), "%T", "Top5TPJumpers", client);
+		AddMenuItem(topmenu, "Top 5 TP Jumpers", buffer, ITEMDRAW_DISABLED);
+	}
+
+	Format(buffer, sizeof(buffer), "%T", "MapTop", client);
+	AddMenuItem(topmenu, "Map Top", buffer);
+
 	if (g_bJumpStats)
-		AddMenuItem(topmenu, "Jump Top", "Jump Top");
+	{
+		Format(buffer, sizeof(buffer), "%T", "JumpTop", client);
+		AddMenuItem(topmenu, "Jump Top", buffer);
+	}
 	SetMenuOptionFlags(topmenu, MENUFLAG_BUTTON_EXIT);
 	DisplayMenu(topmenu, client, MENU_TIME_FOREVER);
 }
@@ -2301,21 +2351,28 @@ public MapTopMenu(client, String:szMap[128])
 	Format(g_szMapTopName[client],128, "%s", szMap);
 	new Handle:topmenu2 = CreateMenu(MapTopMenuHandler);
 	decl String:title[128];
-	Format(title, 128, "Map Top %s (tickrate %i)\n",szMap, g_Server_Tickrate);
+	decl String:buffer[64];
+	Format(title, 128, "%t", "MapTopTitle", szMap, g_Server_Tickrate);
 	SetMenuTitle(topmenu2, title);
 	g_bMapMenuOpen[client]=true;
 	g_bClimbersMenuOpen[client]=false;
 	if (g_bAllowCheckpoints)
 	{
-		AddMenuItem(topmenu2, "!topclimbers", "Top 50 Overall");
-		AddMenuItem(topmenu2, "!proclimbers", "Top 20 Pro");
-		AddMenuItem(topmenu2, "!cpclimbers", "Top 20 TP");
+		Format(buffer, sizeof(buffer), "%T", "Top50Overall", client);
+		AddMenuItem(topmenu2, "!topclimbers", buffer);
+		Format(buffer, sizeof(buffer), "%T", "Top20Pro", client);
+		AddMenuItem(topmenu2, "!proclimbers", buffer);
+		Format(buffer, sizeof(buffer), "%T", "Top20TP", client);
+		AddMenuItem(topmenu2, "!cpclimbers", buffer);
 	}
 	else
 	{
-		AddMenuItem(topmenu2, "!topclimbers", "Top 50 Overall");
-		AddMenuItem(topmenu2, "!proclimbers", "Top 20 Pro",ITEMDRAW_DISABLED);
-		AddMenuItem(topmenu2, "!cpclimbers", "Top 20 TP",ITEMDRAW_DISABLED);
+		Format(buffer, sizeof(buffer), "%T", "Top50Overall", client);
+		AddMenuItem(topmenu2, "!topclimbers", buffer);
+		Format(buffer, sizeof(buffer), "%T", "Top20Pro", client);
+		AddMenuItem(topmenu2, "!proclimbers", buffer, ITEMDRAW_DISABLED);
+		Format(buffer, sizeof(buffer), "%T", "Top20TP", client);
+		AddMenuItem(topmenu2, "!cpclimbers", buffer, ITEMDRAW_DISABLED);
 	}
 
 	new bool:FileSize1=true;
@@ -2326,7 +2383,10 @@ public MapTopMenu(client, String:szMap[128])
 	}
 
 	if (g_global_ValidedMap && !g_global_VersionBlocked && g_hDbGlobal != INVALID_HANDLE && FileSize1)
-		AddMenuItem(topmenu2, "", "Global Top");
+	{
+	Format(buffer, sizeof(buffer), "%T", "GlobalTop", client);
+	AddMenuItem(topmenu2, "", buffer);
+	}
 
 	SetMenuOptionFlags(topmenu2, MENUFLAG_BUTTON_EXIT);
 	DisplayMenu(topmenu2, client, MENU_TIME_FOREVER);
@@ -2372,13 +2432,17 @@ public GlobalTopMenu(client, String:szMap[128])
 	Format(g_szMapTopName[client],128, "%s", szMap);
 	new Handle:globalmenu = CreateMenu(GlobalTopMenuHandler);
 	decl String:title[128];
-	Format(title, 128, "Global Top %s (tickrate %i)\n",szMap, g_Server_Tickrate);
+	decl String:buffer[64];
+	Format(title, 128, "%t", "GlobalTopTitle", szMap, g_Server_Tickrate);
 	SetMenuTitle(globalmenu, title);
 	g_bMapMenuOpen[client]=true;
 	g_bClimbersMenuOpen[client]=false;
-	AddMenuItem(globalmenu, "", "Top 20 Global Overall");
-	AddMenuItem(globalmenu, "", "Top 20 Global Pro");
-	AddMenuItem(globalmenu, "", "Top 20 Global TP");
+	Format(buffer, sizeof(buffer), "%T", "GlobalTop20Overall");
+	AddMenuItem(globalmenu, "", buffer);
+	Format(buffer, sizeof(buffer), "%T", "GlobalTop20Pro");
+	AddMenuItem(globalmenu, "", buffer);
+	Format(buffer, sizeof(buffer), "%T", "GlobalTop20TP");
+	AddMenuItem(globalmenu, "", buffer);
 	SetMenuOptionFlags(globalmenu, MENUFLAG_BUTTON_EXIT);
 	DisplayMenu(globalmenu, client, MENU_TIME_FOREVER);
 }
@@ -2419,16 +2483,25 @@ public JumpTopMenu(client)
 	g_bClimbersMenuOpen[client]=false;
 	new Handle:topmenu2 = CreateMenu(JumpTopMenuHandler);
 	decl String:title[128];
-	Format(title, 128, "Jump Top (tickrate %i)",g_Server_Tickrate);
+	decl String:buffer[64];
+	Format(title, 128, "%t", "JumpTopTitle", g_Server_Tickrate);
 	SetMenuTitle(topmenu2, title);
-	AddMenuItem(topmenu2, "!lj", "Top 20 Longjump");
-	AddMenuItem(topmenu2, "!ljblock", "Top 20 Block Longjump");
-	AddMenuItem(topmenu2, "!bhop", "Top 20 Bhop");
-	AddMenuItem(topmenu2, "!multibhop", "Top 20 MultiBhop");
-	AddMenuItem(topmenu2, "!dropbhop", "Top 20 DropBhop");
-	AddMenuItem(topmenu2, "!wj", "Top 20 Weirdjump");
-	AddMenuItem(topmenu2, "!ladderjump", "Top 20 Ladderjump");
-	AddMenuItem(topmenu2, "!countjump", "Top 20 Countjump");
+	Format(buffer, sizeof(buffer), "%T", "Top20Longjump", client);
+	AddMenuItem(topmenu2, "!lj", buffer);
+	Format(buffer, sizeof(buffer), "%T", "Top20BlockLongjump", client);
+	AddMenuItem(topmenu2, "!ljblock", buffer);
+	Format(buffer, sizeof(buffer), "%T", "Top20Bhop", client);
+	AddMenuItem(topmenu2, "!bhop", buffer);
+	Format(buffer, sizeof(buffer), "%T", "Top20Multibhop", client);
+	AddMenuItem(topmenu2, "!multibhop", buffer);
+	Format(buffer, sizeof(buffer), "%T", "Top20DropBhop", client);
+	AddMenuItem(topmenu2, "!dropbhop", buffer);
+	Format(buffer, sizeof(buffer), "%T", "Top20Weirdjump", client);
+	AddMenuItem(topmenu2, "!wj", buffer);
+	Format(buffer, sizeof(buffer), "%T", "Top20Ladderjump", client);
+	AddMenuItem(topmenu2, "!ladderjump", buffer);
+	Format(buffer, sizeof(buffer), "%T", "Top20Countjump", client);
+	AddMenuItem(topmenu2, "!countjump", buffer);
 	SetMenuPagination(topmenu2, MENU_NO_PAGINATION);
 	SetMenuOptionFlags(topmenu2, MENUFLAG_BUTTON_EXIT);
 	DisplayMenu(topmenu2, client, MENU_TIME_FOREVER);
@@ -2735,7 +2808,7 @@ public ShowSrvSettings(client)
 	PrintToConsole(client, "sv_staminajumpcost %.2f", flStamJump);
 	PrintToConsole(client, "sv_wateraccelerate %.1f", flWaterA);
 	PrintToConsole(client, "-------------------------------------");
-	PrintToChat(client, "[%cKZ%c] See console for output!", MOSSGREEN,WHITE);
+	PrintToChat(client, "%t", "ConsoleOutput", MOSSGREEN,WHITE);
 }
 
 public SetClientLang(client)
