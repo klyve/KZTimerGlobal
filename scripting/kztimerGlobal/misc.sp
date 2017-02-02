@@ -160,6 +160,8 @@ public SetServerConvars()
 
 	if (g_bEnforcer)
 	{
+		new Float:JumpImpulseValue = GetConVarFloat(g_hJumpImpulse);
+
 		SetConVarFloat(g_hStaminaLandCost, 0.0);
 		SetConVarFloat(g_hStaminaJumpCost, 0.0);
 		SetConVarFloat(g_hMaxSpeed, 320.0);
@@ -176,6 +178,11 @@ public SetServerConvars()
 		SetConVarInt(g_hAutoBhop, 0);
 		SetConVarInt(g_hClampVel, 0);
 		SetConVarFloat(g_hsv_ladder_scale_speed, 1.0);
+		SetConVarFloat(g_hJumpImpulse, 301.993377);
+
+		if (FloatAbs(JumpImpulseValue - 301.993377) > 0.00000)
+			ServerCommand("sv_jump_impulse 301.993377");
+
 	}
 
 	if (g_bAutoRespawn)
@@ -2144,7 +2151,7 @@ public PlayQuakeSound_Spec(client, String:buffer[255])
 				new Target = GetEntPropEnt(x, Prop_Send, "m_hObserverTarget");
 				if (Target == client)
 				{
-					if ((god == false && g_EnableQuakeSounds[x] == 1) || (god == true && g_EnableQuakeSounds[x] >= 1)  && (god == false && g_ColorChat[x] == 1) || (god == true && g_ColorChat[x] >= 1))
+					if ((god == false && g_EnableQuakeSounds[x] == 1) || (god == true && g_EnableQuakeSounds[x] <= 1)  && (god == false && g_ColorChat[x] == 1) || (god == true && g_ColorChat[x] >= 1))
 						ClientCommand(x, buffer);
 				}
 			}
@@ -4644,6 +4651,7 @@ public RegServerConVars()
   // New convars
 	g_hAutoBhop= FindConVar("sv_autobunnyhopping");
 	g_hClampVel= FindConVar("sv_clamp_unsafe_velocities");
+	g_hJumpImpulse = FindConVar("sv_jump_impulse");
 
 	g_hsv_ladder_scale_speed = FindConVar("sv_ladder_scale_speed");
 	g_hMaxRounds = FindConVar("mp_maxrounds");
@@ -4663,6 +4671,7 @@ public RegServerConVars()
 	HookConVarChange(g_hClampVel, OnSettingChanged);
 	HookConVarChange(g_hsv_ladder_scale_speed, OnSettingChanged);
 	HookConVarChange(g_hMaxRounds, OnSettingChanged);
+	HookConVarChange(g_hJumpImpulse, OnSettingChanged);
 
 	if (g_Server_Tickrate == 64)
 	{

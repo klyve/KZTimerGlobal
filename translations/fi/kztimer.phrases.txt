@@ -282,7 +282,7 @@
 	"Jumpstats_LadderJumpTop"
 	{
 		"#format"	"{1:c},{2:c},{3:c},{4:s},{5:i},{6:.3f}"
-		"fi"		"[{1}KZ{2}] {3}{4} on nyt #{5} LadderJumpin Topissa! [{6} unittia]"
+		"fi"		"[{1}KZ{2}] {3}{4} on nyt #{5} LadderJumpin Top 20:ssä! [{6} unittia]"
 	}
 	"Jumpstats_BeatLadderJumpBest"
 	{
@@ -422,7 +422,7 @@
 	"Measure4"
 	{
 		"#format"	"{1:c},{2:c},{3:i},{4:.1f},{5:.1f},{6:.1f}"
-		"fi"		"[{1}KZ{2}] piste saatu {3} kohdassa X: {4}, Y: {5}, Z: {6}"
+		"fi"		"[{1}KZ{2}] Piste {3} saatu kohdassa X: {4}, Y: {5}, Z: {6}"
 	}
 	"AntiCheatEnabled"
 	{
@@ -784,6 +784,14 @@
 		"#format"	"{1:c},{2:c},{3:c},{4:c}"
 		"fi"		"[{1}KZ{2}] Kirjoita {3}hideradar{4} konsoliisi piilottaaksesi minimapin"
 	}
+	"SpecMenu1"
+	{
+		"fi"		"KZTimer - Katsoja valikko (paina 'm' liittyäksesi peliin uudestaan!)"
+	}
+	"SpecMenu2" 
+	{
+		"fi"		"KZTimer - Katsoja valikko"
+	}
 	"Unspec"
 	{
 		"#format"	"{1:c},{2:c},{3:c},{4:c}"
@@ -987,7 +995,7 @@
 	"Jumpstats_WjTop"
 	{
 		"#format"	"{1:c},{2:c},{3:c},{4:s},{5:i},{6:.3f}"
-		"fi"		"[{1}KZ{2}] {3}{4} on nyt #{5} WeirdJump Top 20.ssä! [{6} unittia]"
+		"fi"		"[{1}KZ{2}] {3}{4} on nyt #{5} WeirdJump Top 20:ssä! [{6} unittia]"
 	}
 	"Jumpstats_DropBhopTop"
 	{
@@ -1283,7 +1291,7 @@
 	{
 		"fi"		"Aloita"
 	}	
-	"	ClimbersMenu9"
+	"ClimbersMenu9"
 	{
 		"fi"		"Asetukset"
 	}
