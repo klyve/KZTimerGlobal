@@ -160,6 +160,8 @@ public SetServerConvars()
 
 	if (g_bEnforcer)
 	{
+		new Float:JumpImpulseValue = GetConVarFloat(g_hJumpImpulse);
+
 		SetConVarFloat(g_hStaminaLandCost, 0.0);
 		SetConVarFloat(g_hStaminaJumpCost, 0.0);
 		SetConVarFloat(g_hMaxSpeed, 320.0);
@@ -176,6 +178,11 @@ public SetServerConvars()
 		SetConVarInt(g_hAutoBhop, 0);
 		SetConVarInt(g_hClampVel, 0);
 		SetConVarFloat(g_hsv_ladder_scale_speed, 1.0);
+		SetConVarFloat(g_hJumpImpulse, 301.993377);
+
+		if (FloatAbs(JumpImpulseValue - 301.993377) > 0.00000)
+			ServerCommand("sv_jump_impulse 301.993377");
+
 	}
 
 	if (g_bAutoRespawn)
@@ -444,7 +451,7 @@ public PrintConsoleInfo(client)
 	else
 	if (g_global_VersionBlocked)
 		PrintToConsole(client, "[KZ] Global Records disabled. Reason: This server is running an outdated KZTimer version. Contact an server admin!");
-	else
+	else 
 	if (!g_global_KZTimerFileSize)
 		PrintToConsole(client, "[KZ] Global Records disabled. Reason: KZTimer filesize check failed.");
 	else
@@ -1694,7 +1701,9 @@ public SetPlayerRank(client)
       StrEqual(g_szSteamID[client],"STEAM_1:0:31861748") ||
       StrEqual(g_szSteamID[client],"STEAM_1:0:31339383") ||
       StrEqual(g_szSteamID[client],"STEAM_1:0:16599865") ||
-      StrEqual(g_szSteamID[client],"STEAM_1:0:8845346"))
+      StrEqual(g_szSteamID[client],"STEAM_1:0:8845346")  ||
+      StrEqual(g_szSteamID[client],"STEAM_1:1:11374239"))
+
 	{
 		Format(g_pr_chat_coloredrank[client], 32, "%s %cGLOBAL%c",g_pr_chat_coloredrank[client],DARKRED,WHITE);
 		return;
@@ -2247,12 +2256,19 @@ public Prestrafe(client, Float: ang, &buttons)
 			SetEntPropFloat(client, Prop_Send, "m_flVelocityModifier", flDefaultKnifeSpeed);
 		return;
 	}
+	
 	// get turning direction
-	if( ang < g_fLastAngles[client][1])
+	// Fixed for  -180 180 wrap
+	float eye_angle_change = ang - g_fLastAngles[client][1];
+	if(eye_angle_change < -180)  
+		eye_angle_change += 360;
+	if (eye_angle_change > 180)
+		eye_angle_change -= 360;
+	
+	if(eye_angle_change < 0)
 		turning_right = true;
-	else
-		if( ang > g_fLastAngles[client][1])
-			turning_left = true;
+	else if(eye_angle_change > 0)
+		turning_left = true;
 
 	//get moving direction
 	if (GetClientMovingDirection(client,false) > 0.0)
@@ -4635,6 +4651,7 @@ public RegServerConVars()
   // New convars
 	g_hAutoBhop= FindConVar("sv_autobunnyhopping");
 	g_hClampVel= FindConVar("sv_clamp_unsafe_velocities");
+	g_hJumpImpulse = FindConVar("sv_jump_impulse");
 
 	g_hsv_ladder_scale_speed = FindConVar("sv_ladder_scale_speed");
 	g_hMaxRounds = FindConVar("mp_maxrounds");
@@ -4654,6 +4671,7 @@ public RegServerConVars()
 	HookConVarChange(g_hClampVel, OnSettingChanged);
 	HookConVarChange(g_hsv_ladder_scale_speed, OnSettingChanged);
 	HookConVarChange(g_hMaxRounds, OnSettingChanged);
+	HookConVarChange(g_hJumpImpulse, OnSettingChanged);
 
 	if (g_Server_Tickrate == 64)
 	{
