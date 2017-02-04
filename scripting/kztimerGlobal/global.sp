@@ -72,9 +72,9 @@ ConnectToGlobalDB()
 	new Handle:kv = INVALID_HANDLE;
 	kv = CreateKeyValues("");
 	KvSetString(kv, "driver", "mysql");
-	KvSetString(kv, "host", "127.0.0.1");
+	KvSetString(kv, "host", "global.kztimer.com");
 	KvSetString(kv, "port", "3306");
-	KvSetString(kv, "database", "hoc_comp");
+	KvSetString(kv, "database", "kztimerglobal");
 	KvSetString(kv, "user", "kztimerplugin");
 	KvSetString(kv, "pass", "hKCZrdxZfgeXs5wg");
 
@@ -1102,7 +1102,7 @@ public Action:Client_GlobalCheck(client, args)
 				{
 					PrintToChat(client, "[%cKZ%c] %cGlobal Records disabled. Reason: This server is running an outdated KZTimer version. Contact an server admin!",MOSSGREEN,WHITE,RED);
 					return Plugin_Handled;
-				}
+				} 
 				else
 				if (!g_global_KZTimerFileSize)
 				{

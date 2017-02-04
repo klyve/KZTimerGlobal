@@ -28,7 +28,7 @@
 */
 
 //
-#define VERSION "1.85_1 Global"
+#define VERSION "1.86 Beta"
 #define PLUGIN_VERSION 190
 #define ADMIN_LEVEL ADMFLAG_UNBAN
 #define ADMIN_LEVEL2 ADMFLAG_ROOT

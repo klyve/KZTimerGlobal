@@ -451,7 +451,7 @@ public PrintConsoleInfo(client)
 	else
 	if (g_global_VersionBlocked)
 		PrintToConsole(client, "[KZ] Global Records disabled. Reason: This server is running an outdated KZTimer version. Contact an server admin!");
-	else
+	else 
 	if (!g_global_KZTimerFileSize)
 		PrintToConsole(client, "[KZ] Global Records disabled. Reason: KZTimer filesize check failed.");
 	else

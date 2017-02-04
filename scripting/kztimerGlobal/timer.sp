@@ -494,7 +494,10 @@ public Action:KZTimer2(Handle:timer)
 		ent_count = 0;
 		for (new y; y < GetEntityCount(); y++)
 		{
-			if (IsValidEdict(y) && GetEntityClassname(y, classname, 32) && (StrContains(classname, "prop") != -1))
+			if (IsValidEdict(y) && GetEntityClassname(y, classname, 32) && (StrContains(classname, "prop_physics_multiplayer") != -1))
+				return Plugin_Handled;
+
+			else if (IsValidEdict(y) && GetEntityClassname(y, classname, 32) && (StrContains(classname, "prop") != -1))
 			{
 				ent_count++;
 			}

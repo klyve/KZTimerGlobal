@@ -2437,11 +2437,11 @@ public GlobalTopMenu(client, String:szMap[128])
 	SetMenuTitle(globalmenu, title);
 	g_bMapMenuOpen[client]=true;
 	g_bClimbersMenuOpen[client]=false;
-	Format(buffer, sizeof(buffer), "%T", "GlobalTop20Overall");
+	Format(buffer, sizeof(buffer), "%t", "GlobalTop20Overall");
 	AddMenuItem(globalmenu, "", buffer);
-	Format(buffer, sizeof(buffer), "%T", "GlobalTop20Pro");
+	Format(buffer, sizeof(buffer), "%t", "GlobalTop20Pro");
 	AddMenuItem(globalmenu, "", buffer);
-	Format(buffer, sizeof(buffer), "%T", "GlobalTop20TP");
+	Format(buffer, sizeof(buffer), "%t", "GlobalTop20TP");
 	AddMenuItem(globalmenu, "", buffer);
 	SetMenuOptionFlags(globalmenu, MENUFLAG_BUTTON_EXIT);
 	DisplayMenu(globalmenu, client, MENU_TIME_FOREVER);
