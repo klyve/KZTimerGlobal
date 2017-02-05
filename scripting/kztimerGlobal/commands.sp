@@ -29,9 +29,9 @@ public Action:Command_Specs(client, args)
 		}
 	}
 	if (count > 0)
-		PrintToChat(client, "%T", "SpectatorMessage1", YELLOW,GRAY,LIMEGREEN,count,GRAY,WHITE,szNameList);
+		PrintToChat(client, "%t", "SpectatorMessage1", YELLOW,GRAY,LIMEGREEN,count,GRAY,WHITE,szNameList);
 	else
-		PrintToChat(client, "%T", "SpectatorMessage2", YELLOW,GRAY,LIMEGREEN,count,GRAY);
+		PrintToChat(client, "%t", "SpectatorMessage2", YELLOW,GRAY,LIMEGREEN,count,GRAY);
 
 	return Plugin_Handled;
 }
@@ -152,13 +152,13 @@ public Action:Client_Challenge(client, args)
 			decl String:buffer[128];
 			if (g_bAllowCheckpoints)
 			{
-				SetMenuTitle(challengemenu, "%t", "Challenge_TitleCP");
+				SetMenuTitle(challengemenu, "%T", "Challenge_TitleCP", client);
 				Format(buffer, sizeof(buffer), "%T", "Challenge_CP_YES", client);
 				AddMenuItem(challengemenu, "Yes", buffer);
 			}
 			else
 			{
-				SetMenuTitle(challengemenu, "%t", "Challenge_TitleNoCP");
+				SetMenuTitle(challengemenu, "%T", "Challenge_TitleNoCP", client);
 			}
 
 			Format(buffer, sizeof(buffer), "%T", "Challenge_CP_No", client);
@@ -189,11 +189,11 @@ public ChallengeMenuHandler1(Handle:challengemenu, MenuAction:action, param1,par
 		g_bMenuOpen[param1]=true;
 		decl String:tmp[64];
 		if (g_bPointSystem)
-			Format(tmp, 64, "%t", "Challenge_Bets", g_pr_points[param1]);
+			Format(tmp, 64, "%T", "Challenge_Bets", param1, g_pr_points[param1]);
 		else
-			Format(tmp, 64, "%t", "Challenge_PointsDisabled", g_pr_points[param1]);
+			Format(tmp, 64, "%T", "Challenge_PointsDisabled", param1, g_pr_points[param1]);
 		SetMenuTitle(menu2, tmp);
-		Format(buffer, sizeof(buffer), "%t", "Challenge_NoBet");
+		Format(buffer, sizeof(buffer), "%T", "Challenge_NoBet", param1);
 		AddMenuItem(menu2, "0", buffer);
 		if (g_bPointSystem)
 		{
@@ -246,7 +246,7 @@ public ChallengeMenuHandler2(Handle:challengemenu, MenuAction:action, param1,par
 						g_Challenge_Bet[param1] = 0;
 		decl String:szPlayerName[MAX_NAME_LENGTH];
 		new Handle:menu2 = CreateMenu(ChallengeMenuHandler3);
-		SetMenuTitle(menu2, "%t", "Challenge_SelectOpponent");
+		SetMenuTitle(menu2, "%T", "Challenge_SelectOpponent", param1);
 		new playerCount=0;
 		for (new i = 1; i <= MaxClients; i++)
 		{
@@ -307,9 +307,9 @@ public ChallengeMenuHandler3(Handle:challengemenu, MenuAction:action, param1,par
 							Format(g_szChallenge_OpponentID[param1], 32, szSteamId);
 							decl String:cp[16];
 							if (g_bChallenge_Checkpoints[param1])
-								Format(cp, 16, "%t", "CP_Allowed");
+								Format(cp, 16, "%T", "CP_Allowed", param1);
 							else
-								Format(cp, 16, "%t", "CP_Forbidden");
+								Format(cp, 16, "%T", "CP_Forbidden", param1);
 							new value = g_pr_PointUnit * g_Challenge_Bet[param1];
 							PrintToChat(param1, "%t", "Challenge1", RED,WHITE, YELLOW, szTargetName, value,cp);
 							//target msg
@@ -347,12 +347,12 @@ public Action:Client_Abort(client, args)
 		if (g_bChallenge_Abort[client])
 		{
 			g_bChallenge_Abort[client]=false;
-			PrintToChat(client, "%T", "Challenge_Disagree_Abort", RED,WHITE);
+			PrintToChat(client, "%t", "Challenge_Disagree_Abort", RED, WHITE);
 		}
 		else
 		{
 			g_bChallenge_Abort[client]=true;
-			PrintToChat(client, "%T", "Challenge_Agree_Abort", RED, WHITE);
+			PrintToChat(client, "%t", "Challenge_Agree_Abort", RED, WHITE);
 		}
 	}
 	return Plugin_Handled;
@@ -395,12 +395,12 @@ public Action:Client_Accept(client, args)
 				GetClientName(client, szPlayer2, MAX_NAME_LENGTH);
 
 				if (g_bChallenge_Checkpoints[i])
-					Format(szCP, sizeof(szCP), "%t", "CP_Allowed2");
+					Format(szCP, sizeof(szCP), "%T", "CP_Allowed2", client);
 				else
-					Format(szCP, sizeof(szCP), "%t", "CP_Forbidden2");
+					Format(szCP, sizeof(szCP), "%T", "CP_Forbidden2", client);
 				new points = g_Challenge_Bet[i]*2*g_pr_PointUnit;
-				PrintToChatAll("%T", "Challenge5", RED,WHITE,MOSSGREEN,szPlayer1,WHITE,MOSSGREEN,szPlayer2,WHITE);
-				PrintToChatAll("%T", "Challenge6", RED,WHITE,GRAY,szCP,WHITE,GRAY,points);
+				PrintToChatAll("%t", "Challenge5", RED,WHITE,MOSSGREEN,szPlayer1,WHITE,MOSSGREEN,szPlayer2,WHITE);
+				PrintToChatAll("%t", "Challenge6", RED,WHITE,GRAY,szCP,WHITE,GRAY,points);
 
 				new r1 = GetRandomInt(55, 255);
 				new r2 = GetRandomInt(55, 255);
@@ -547,7 +547,7 @@ public Action:Client_Surrender (client, args)
 						new lostpoints = g_Challenge_Bet[client] * g_pr_PointUnit;
 						for (new j = 1; j <= MaxClients; j++)
 							if (IsValidClient(j) && IsValidEntity(j))
-								PrintToChat(j, "%T", "Challenge_Lost_Points", MOSSGREEN, WHITE, PURPLE,szName, GRAY, RED, lostpoints,GRAY);
+								PrintToChat(j, "%t", "Challenge_Lost_Points", MOSSGREEN, WHITE, PURPLE,szName, GRAY, RED, lostpoints,GRAY);
 					}
 					//db update
 					CreateTimer(0.0, UpdatePlayerProfile, i,TIMER_FLAG_NO_MAPCHANGE);
@@ -887,9 +887,9 @@ public SpecPlayer(client,args)
 		new Handle:menu = CreateMenu(SpecMenuHandler);
 
 		if(g_bSpectate[client])
-			SetMenuTitle(menu, "%t", "SpecMenu1");
+			SetMenuTitle(menu, "%T", "SpecMenu1", client);
 		else
-			SetMenuTitle(menu, "%t", "SpecMenu2");
+			SetMenuTitle(menu, "%T", "SpecMenu2", client);
 		new playerCount=0;
 
 		//add replay bots
@@ -897,13 +897,13 @@ public SpecPlayer(client,args)
 		{
 			if (g_ProBot != -1 && IsValidClient(g_ProBot) && IsPlayerAlive(g_ProBot))
 			{
-				Format(szPlayerName2, 128, "%t", "ProRecord_Replay", g_szReplayTime);
+				Format(szPlayerName2, 128, "%T", "ProRecord_Replay", client, g_szReplayTime);
 				AddMenuItem(menu, "PRO RECORD REPLAY", szPlayerName2);
 				playerCount++;
 			}
 			if (g_TpBot != -1 && IsValidClient(g_TpBot) && IsPlayerAlive(g_TpBot))
 			{
-				Format(szPlayerName2, 128, "%t", "TPRecord_Replay", g_szReplayTimeTp);
+				Format(szPlayerName2, 128, "%T", "TPRecord_Replay", client, g_szReplayTimeTp);
 				AddMenuItem(menu, "TP RECORD REPLAY", szPlayerName2);
 				playerCount++;
 			}
@@ -957,7 +957,7 @@ public SpecPlayer(client,args)
 					}
 					//add rank
 					decl String:szMenu[128];
-					Format (szMenu,128,"%t", "TopRankedPlayer", szTopName, bestrank);
+					Format(szMenu, 128, "%T", "TopRankedPlayer", client, szTopName, bestrank);
 					AddMenuItem(menu, "best_playertop", szMenu);
 
 					//add time
@@ -968,7 +968,7 @@ public SpecPlayer(client,args)
 
 					if (fl_besttime < 999999999.0)
 					{
-						Format(szMenu, 128, "%t", "TopRankedOnMap", szTopMapName, maprank, szTime);
+						Format(szMenu, 128, "%T", "TopRankedOnMap", client, szTopMapName, maprank, szTime);
 						AddMenuItem(menu, szId, szMenu);
 					}
 					AddMenuItem(menu, "", "",ITEMDRAW_SPACER);
@@ -1121,7 +1121,7 @@ public CompareMenu(client,args)
 	{
 		Format(szPlayerName, MAX_NAME_LENGTH, "");
 		new Handle:menu = CreateMenu(CompareSelectMenuHandler);
-		SetMenuTitle(menu, "%t", "CompareMenuTitle");
+		SetMenuTitle(menu, "%T", "CompareMenuTitle", client);
 		new playerCount=0;
 		for (new i = 1; i <= MaxClients; i++)
 		{
@@ -1236,7 +1236,7 @@ public ProfileMenu(client,args)
 	{
 		decl String:szPlayerName[MAX_NAME_LENGTH];
 		new Handle:menu = CreateMenu(ProfileSelectMenuHandler);
-		SetMenuTitle(menu, "%t", "ProfileMenuTitle");
+		SetMenuTitle(menu, "%T", "ProfileMenuTitle", client);
 		GetClientName(client, szPlayerName, MAX_NAME_LENGTH);
 		AddMenuItem(menu, szPlayerName, szPlayerName);
 		new playerCount=1;
@@ -1698,7 +1698,7 @@ public Action:Client_GoTo(client, args)
 		if (args==0)
 		{
 			new Handle:menu = CreateMenu(GoToMenuHandler);
-			SetMenuTitle(menu, "%t", "GoToMenuTitle");
+			SetMenuTitle(menu, "%T", "GoToMenuTitle", client);
 			new playerCount=0;
 			for (new i = 1; i <= MaxClients; i++)
 			{
@@ -1896,7 +1896,7 @@ public DoCheckpoint(client)
 	if (StrEqual("kzpro", g_szMapPrefix[0]) && g_bTimeractivated[client])
 	{
 		EmitSoundToClient(client,"buttons/button10.wav",client);
-		PrintToChat(client, "%T", "KZPro_NotSupported", MOSSGREEN,WHITE,RED);
+		PrintToChat(client, "%t", "KZPro_NotSupported", MOSSGREEN,WHITE,RED);
 		return;
 	}
 
@@ -2267,7 +2267,7 @@ public KZTopMenu(client)
 	g_bTopMenuOpen[client]=true;
 	g_bClimbersMenuOpen[client]=false;
 	new Handle:topmenu = CreateMenu(TopMenuHandler);
-	SetMenuTitle(topmenu, "%t", "TopMenuTitle");
+	SetMenuTitle(topmenu, "%T", "TopMenuTitle", client);
 	if (g_bPointSystem)
 	{
 	Format(buffer, sizeof(buffer), "%T", "Top100Players", client);
@@ -2352,7 +2352,7 @@ public MapTopMenu(client, String:szMap[128])
 	new Handle:topmenu2 = CreateMenu(MapTopMenuHandler);
 	decl String:title[128];
 	decl String:buffer[64];
-	Format(title, 128, "%t", "MapTopTitle", szMap, g_Server_Tickrate);
+	Format(title, 128, "%T", "MapTopTitle", client, szMap, g_Server_Tickrate);
 	SetMenuTitle(topmenu2, title);
 	g_bMapMenuOpen[client]=true;
 	g_bClimbersMenuOpen[client]=false;
@@ -2433,15 +2433,15 @@ public GlobalTopMenu(client, String:szMap[128])
 	new Handle:globalmenu = CreateMenu(GlobalTopMenuHandler);
 	decl String:title[128];
 	decl String:buffer[64];
-	Format(title, 128, "%t", "GlobalTopTitle", szMap, g_Server_Tickrate);
+	Format(title, 128, "%T", "GlobalTopTitle", client, szMap, g_Server_Tickrate);
 	SetMenuTitle(globalmenu, title);
 	g_bMapMenuOpen[client]=true;
 	g_bClimbersMenuOpen[client]=false;
-	Format(buffer, sizeof(buffer), "%t", "GlobalTop20Overall");
+	Format(buffer, sizeof(buffer), "%T", "GlobalTop20Overall", client);
 	AddMenuItem(globalmenu, "", buffer);
-	Format(buffer, sizeof(buffer), "%t", "GlobalTop20Pro");
+	Format(buffer, sizeof(buffer), "%T", "GlobalTop20Pro", client);
 	AddMenuItem(globalmenu, "", buffer);
-	Format(buffer, sizeof(buffer), "%t", "GlobalTop20TP");
+	Format(buffer, sizeof(buffer), "%T", "GlobalTop20TP", client);
 	AddMenuItem(globalmenu, "", buffer);
 	SetMenuOptionFlags(globalmenu, MENUFLAG_BUTTON_EXIT);
 	DisplayMenu(globalmenu, client, MENU_TIME_FOREVER);
@@ -2484,7 +2484,7 @@ public JumpTopMenu(client)
 	new Handle:topmenu2 = CreateMenu(JumpTopMenuHandler);
 	decl String:title[128];
 	decl String:buffer[64];
-	Format(title, 128, "%t", "JumpTopTitle", g_Server_Tickrate);
+	Format(title, sizeof(title), "%T", "JumpTopTitle", client, g_Server_Tickrate);
 	SetMenuTitle(topmenu2, title);
 	Format(buffer, sizeof(buffer), "%T", "Top20Longjump", client);
 	AddMenuItem(topmenu2, "!lj", buffer);
