@@ -307,9 +307,9 @@ public ChallengeMenuHandler3(Handle:challengemenu, MenuAction:action, param1,par
 							Format(g_szChallenge_OpponentID[param1], 32, szSteamId);
 							decl String:cp[16];
 							if (g_bChallenge_Checkpoints[param1])
-								Format(cp, 16, "%T", "CP_Allowed", param1);
+								Format(cp, 16, " allowed");
 							else
-								Format(cp, 16, "%T", "CP_Forbidden", param1);
+								Format(cp, 16, " forbidden");
 							new value = g_pr_PointUnit * g_Challenge_Bet[param1];
 							PrintToChat(param1, "%t", "Challenge1", RED,WHITE, YELLOW, szTargetName, value,cp);
 							//target msg
@@ -395,9 +395,9 @@ public Action:Client_Accept(client, args)
 				GetClientName(client, szPlayer2, MAX_NAME_LENGTH);
 
 				if (g_bChallenge_Checkpoints[i])
-					Format(szCP, sizeof(szCP), "%T", "CP_Allowed2", client);
+					Format(szCP, sizeof(szCP), "Allowed");
 				else
-					Format(szCP, sizeof(szCP), "%T", "CP_Forbidden2", client);
+					Format(szCP, sizeof(szCP), "Forbidden");
 				new points = g_Challenge_Bet[i]*2*g_pr_PointUnit;
 				PrintToChatAll("%t", "Challenge5", RED,WHITE,MOSSGREEN,szPlayer1,WHITE,MOSSGREEN,szPlayer2,WHITE);
 				PrintToChatAll("%t", "Challenge6", RED,WHITE,GRAY,szCP,WHITE,GRAY,points);
