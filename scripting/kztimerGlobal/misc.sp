@@ -1690,6 +1690,7 @@ public SetPlayerRank(client)
 		if (StrEqual(g_szSteamID[client],"STEAM_1:1:73507922") || StrEqual(g_szSteamID[client],"STEAM_1:0:36685029") || StrEqual(g_szSteamID[client],"STEAM_1:1:21505111"))
 		{
 			Format(g_pr_chat_coloredrank[client], 32, "%s %cDEV%c",g_pr_chat_coloredrank[client],LIMEGREEN,WHITE);
+			Format(g_pr_rankname[client], 32, "ADMIN");
 			return;
 		}
 		else {
