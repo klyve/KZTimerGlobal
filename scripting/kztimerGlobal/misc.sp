@@ -1686,9 +1686,10 @@ public SetPlayerRank(client)
 	{	
 		// DEV TAG
 		//1NutWunDeR / Klyve / Sikari
-		if (StrEqual(g_szSteamID[client],"STEAM_1:1:73507922") || StrEqual(g_szSteamID[client],"STEAM_1:0:36685029") || StrEqual(g_szSteamID[client],"STEAM_1:1:21505111"))
+		if (StrEqual(g_szSteamID[client],"STEAM_1:1:73507922") || StrEqual(g_szSteamID[client],"STEAM_1:0:36685029") || StrEqual(g_szSteamID[client],"STEAM_1:1:21505111")) 
 		{
 			Format(g_pr_chat_coloredrank[client], 32, "%s %cDEV%c",g_pr_chat_coloredrank[client],LIMEGREEN,WHITE);
+			if (GetUserFlagBits(client) & ADMFLAG_ROOT || GetUserFlagBits(client) & ADMFLAG_GENERIC)
 			Format(g_pr_rankname[client], 32, "ADMIN");
 			return;
 		}
