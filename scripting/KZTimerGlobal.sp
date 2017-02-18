@@ -28,8 +28,8 @@
 */
 
 //
-#define VERSION "1.85_1 Global"
-#define PLUGIN_VERSION 190
+#define VERSION "1.86"
+#define PLUGIN_VERSION 191
 #define ADMIN_LEVEL ADMFLAG_UNBAN
 #define ADMIN_LEVEL2 ADMFLAG_ROOT
 #define MYSQL 0
@@ -63,14 +63,14 @@
 #define SF_BUTTON_TOUCH_ACTIVATES (1<<8)
 #define SF_DOOR_PTOUCH (1<<10)
 #define BM_MAGIC 0xBAADF00D
-#define BINARY_FORMAT_VERSION 0x01
+#define BINARY_FORMAT_VERSION 0x02
 #define ADDITIONAL_FIELD_TELEPORTED_ORIGIN (1<<0)
 #define ADDITIONAL_FIELD_TELEPORTED_ANGLES (1<<1)
 #define ADDITIONAL_FIELD_TELEPORTED_VELOCITY (1<<2)
 #define FRAME_INFO_SIZE 15
 #define AT_SIZE 10
 #define ORIGIN_SNAPSHOT_INTERVAL 150
-#define FILE_HEADER_LENGTH 74
+#define FILE_HEADER_LENGTH 138 // 74
 #define SOURCEBANS_AVAILABLE()	(GetFeatureStatus(FeatureType_Native, "SBBanPlayer") == FeatureStatus_Available)
 #define MANIFEST_FOLDER         "maps/"
 #define MANIFEST_EXTENSION      "_particles.txt"
@@ -102,6 +102,8 @@ enum AdditionalTeleport
 enum FileHeader
 {
 	FH_binaryFormatVersion = 0,
+	String:FH_player_ip[32],
+	String:FH_steamID[32],
 	String:FH_Time[32],
 	String:FH_Playername[32],
 	FH_Checkpoints,
@@ -150,9 +152,10 @@ new Handle:g_hMaxRounds = INVALID_HANDLE;
 new Handle:g_hEnableBunnyhoping = INVALID_HANDLE;
 new Handle:g_hsv_ladder_scale_speed = INVALID_HANDLE;
 
-
+//Test
 new Handle:g_hAutoBhop = INVALID_HANDLE;
 new Handle:g_hClampVel = INVALID_HANDLE;
+new Handle:g_hJumpImpulse = INVALID_HANDLE;
 
 new Handle:g_hTeleport = INVALID_HANDLE;
 new Handle:g_hMainMenu = INVALID_HANDLE;
@@ -406,6 +409,7 @@ new Float:g_js_fPersonal_Lj_Record[MAX_PR_PLAYERS]=-1.0;
 new Float:g_js_fPersonal_LadderJump_Record[MAX_PR_PLAYERS]=-1.0;
 new Float:g_js_fPersonal_LjBlockRecord_Dist[MAX_PR_PLAYERS]=-1.0;
 new Float:g_fLastSpeed[MAXPLAYERS+1];
+new Float:g_fLastPauseUsed[MAXPLAYERS+1];
 new Float:g_fJumpButtonLastTimeUsed[MAXPLAYERS+1];
 new Float:g_vCurrent[MAXPLAYERS + 1][3];
 new Float:g_vLast[MAXPLAYERS + 1][3];
@@ -464,6 +468,7 @@ new bool:g_bNoClipUsed[MAXPLAYERS+1];
 new bool:g_bMenuOpen[MAXPLAYERS+1];
 new bool:g_bRespawnAtTimer[MAXPLAYERS+1];
 new bool:g_bLastOnGround[MAXPLAYERS + 1];
+new bool:g_bCanPause[MAXPLAYERS+1];
 new bool:g_bPause[MAXPLAYERS+1];
 new bool:g_bOverlay[MAXPLAYERS+1];
 new bool:g_bLastButtonJump[MAXPLAYERS+1];
@@ -730,7 +735,7 @@ new String:IMPRESSIVE_FULL_SOUND_PATH[128];
 new String:IMPRESSIVE_RELATIVE_SOUND_PATH[128];
 new String:GOLDEN_FULL_SOUND_PATH[128];
 new String:GOLDEN_RELATIVE_SOUND_PATH[128];
-new String:g_szLanguages[][128] = {"English", "German", "Swedish", "French", "Russian", "SChinese", "Brazilian"};
+new String:g_szLanguages[][128] = {"English", "German", "Swedish", "French", "Russian", "SChinese", "Brazilian", "Finnish"};
 new String:RadioCMDS[][] = {"coverme", "takepoint", "holdpos", "regroup", "followme", "takingfire", "go", "fallback", "sticktog",
 	"getinpos", "stormfront", "report", "roger", "enemyspot", "needbackup", "sectorclear", "inposition", "reportingin",
 	"getout", "negative","enemydown","cheer","thanks","nice","compliment"};
@@ -846,15 +851,6 @@ public OnPluginStart()
 	SetupHooksAndCommandListener();
 	SetServerConvars();
 	SetSoundPath();
-
-	//Credits: Measure by DaFox
-	//https://forums.alliedmods.net/showthread.php?t=88830
-	g_hMainMenu = CreateMenu(Handler_MainMenu)
-	SetMenuTitle(g_hMainMenu,"KZTimer - Measure")
-	AddMenuItem(g_hMainMenu,"","Point 1 (Red)")
-	AddMenuItem(g_hMainMenu,"","Point 2 (Green)")
-	AddMenuItem(g_hMainMenu,"","Find Distance")
-	AddMenuItem(g_hMainMenu,"","Reset")
 
 	//admin menu
 	new Handle:topmenu;
@@ -1054,10 +1050,6 @@ public OnMapStart()
 	GetCurrentMap(g_szMapName, 128);
 	Format(g_szMapPath, sizeof(g_szMapPath), "maps/%s.bsp", g_szMapName);
 	fileFound = FileExists(g_szMapPath);
-
-
-	//new Filesize =  FileSize(g_szMapPath);
-	//LogError( "filesize: %i map: %s", Filesize,g_szMapPath)
 
 	//workshop fix
 	new String:mapPieces[6][128];
@@ -1693,6 +1685,8 @@ public OnSettingChanged(Handle:convar, const String:oldValue[], const String:new
 	{
 		if(newValue[0] == '1')
 		{
+			new Float:JumpImpulseValue = GetConVarFloat(g_hJumpImpulse);
+
 			g_bEnforcer = true;
 			SetConVarFloat(g_hStaminaLandCost, 0.0);
 			SetConVarFloat(g_hStaminaJumpCost, 0.0);
@@ -1710,6 +1704,10 @@ public OnSettingChanged(Handle:convar, const String:oldValue[], const String:new
 			SetConVarInt(g_hAutoBhop, 0);
 			SetConVarInt(g_hClampVel, 0);
 			SetConVarFloat(g_hsv_ladder_scale_speed, 1.0);
+			SetConVarFloat(g_hJumpImpulse, 301.993377);
+
+			if (FloatAbs(JumpImpulseValue - 301.993377) > 0.00000)
+				ServerCommand("sv_jump_impulse 301.993377");
 		}
 		else
 			g_bEnforcer = false;
@@ -2145,6 +2143,17 @@ public OnSettingChanged(Handle:convar, const String:oldValue[], const String:new
 		new iTmp = StringToInt(newValue[0]);
 		if (g_bEnforcer && iTmp != 0)
 			SetConVarInt(g_hClampVel, 0);
+	}
+	if(convar == g_hJumpImpulse)
+	{
+		new Float:flTmp = StringToFloat(newValue[0]);
+		new Float:JumpImpulseValue = GetConVarFloat(g_hJumpImpulse);
+
+			if (g_bEnforcer && flTmp != 301.993377)
+				SetConVarFloat(g_hJumpImpulse, 301.993377);
+
+			if (g_bEnforcer && FloatAbs(JumpImpulseValue - 301.993377) > 0.00000)
+				ServerCommand("sv_jump_impulse 301.993377");
 	}
 }
 

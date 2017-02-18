@@ -58,14 +58,17 @@ public StopRecording(client)
 
 public SaveRecording(client, type)
 {
-	if(!IsValidClient(client) || g_hRecording[client] == INVALID_HANDLE)
+	if(!IsValidClient(client) || g_hRecording[client] == INVALID_HANDLE){
 		return;
+	}
+		
 		
 	decl String:sPath2[256];
 	// Check if the default record folder exists?
 	BuildPath(Path_SM, sPath2, sizeof(sPath2), "%s",KZ_REPLAY_PATH);
 	if(!DirExists(sPath2))
 		CreateDirectory(sPath2, 511);
+
 	if (type==0)
 	{
 		Format(sPath2, sizeof(sPath2), "%s%s.rec", KZ_REPLAY_PATH,g_szMapName);
@@ -76,13 +79,27 @@ public SaveRecording(client, type)
 		Format(sPath2, sizeof(sPath2), "%s%s_tp.rec", KZ_REPLAY_PATH,g_szMapName);
 		BuildPath(Path_SM, sPath2, sizeof(sPath2), "%s%s_tp.rec", KZ_REPLAY_PATH,g_szMapName);
 	}
-				
+	
+	//Will be used in global bot update
+	//BuildPath(Path_SM, sPath2, sizeof(sPath2), "%s", CreateRecordFileName(client, type));
+	
 	// Add to our loaded record list
 	decl String:szName[MAX_NAME_LENGTH];
 	GetClientName(client, szName, MAX_NAME_LENGTH);
 	
 	new iHeader[FILE_HEADER_LENGTH];
 	iHeader[_:FH_binaryFormatVersion] = BINARY_FORMAT_VERSION;
+	
+	//Add IP and SteamID(Integers)
+	char string_client_auth[32];
+	char player_IP[32];
+    GetClientIP(client, player_IP, sizeof(player_IP))
+	GetClientAuthId(client, AuthId_Steam2, string_client_auth, 32)
+	
+	strcopy(iHeader[_:FH_player_ip], 32, player_IP);
+	strcopy(iHeader[_:FH_steamID], 32, string_client_auth);
+	
+	
 	strcopy(iHeader[_:FH_Time], 32, g_szFinalTime[client]);
 	iHeader[_:FH_tickCount] = GetArraySize(g_hRecording[client]);
 	strcopy(iHeader[_:FH_Playername], 32, szName);
@@ -100,6 +117,31 @@ public SaveRecording(client, type)
 	
 	if(g_hRecording[client] != INVALID_HANDLE)
 		StopRecording(client);
+		
+}
+
+char CreateRecordFileName(int client, int type){
+	char new_record_filename[PLATFORM_MAX_PATH + 1];
+	
+	char string_client_auth[64];
+	char record_type[32];
+	int time_in_ms; 
+	
+	 time_in_ms = RoundFloat(g_fFinalTime[client]*1000)
+	
+	if (type==1)
+	{
+		Format(record_type, sizeof(record_type), "%s", "tp");
+	}
+	else{
+		Format(record_type, sizeof(record_type), "%s", "pro");
+	}
+	
+	GetClientAuthId(client, AuthId_SteamID64, string_client_auth, 64)
+
+	Format(new_record_filename, sizeof(new_record_filename), "%s%s_%s_%i_%s.rec",KZ_REPLAY_PATH, g_szMapName, string_client_auth,  time_in_ms, record_type)		
+	 
+	return new_record_filename;
 }
 
 WriteRecordToDisk(const String:sPath[], iFileHeader[FILE_HEADER_LENGTH])
@@ -113,6 +155,14 @@ WriteRecordToDisk(const String:sPath[], iFileHeader[FILE_HEADER_LENGTH])
 	
 	WriteFileCell(hFile, BM_MAGIC, 4);
 	WriteFileCell(hFile, iFileHeader[_:FH_binaryFormatVersion], 1);
+	
+	//player ip
+	WriteFileCell(hFile, strlen(iFileHeader[_:FH_player_ip]), 1);
+	WriteFileString(hFile, iFileHeader[_:FH_player_ip], false);
+	//Steamid
+	WriteFileCell(hFile, strlen(iFileHeader[_:FH_steamID]), 1);
+	WriteFileString(hFile, iFileHeader[_:FH_steamID], false);
+	
 	WriteFileCell(hFile, strlen(iFileHeader[_:FH_Time]), 1);
 	WriteFileString(hFile, iFileHeader[_:FH_Time], false);
 	WriteFileCell(hFile, strlen(iFileHeader[_:FH_Playername]), 1);
@@ -279,13 +329,32 @@ public LoadRecordFromFile(const String:path[], headerInfo[FILE_HEADER_LENGTH])
 		CloseHandle(hFile);
 		return;
 	}
+	if(iBinaryFormatVersion == 0x02){
+
+		//player_ip
+		new player_ip;
+		ReadFileCell(hFile, player_ip, 1);
+		decl String:szplayer_ip[player_ip+1];
+		ReadFileString(hFile, szplayer_ip, player_ip+1, player_ip);
+		szplayer_ip[player_ip] = '\0';
 		
+		//steamID
+		new steamID;
+		ReadFileCell(hFile, steamID, 1);
+		decl String:szsteamID[steamID+1];
+		ReadFileString(hFile, szsteamID, steamID+1, steamID);
+		szsteamID[steamID] = '\0';
+	
+	}
+		
+	//Time string
 	new iNameLength;
 	ReadFileCell(hFile, iNameLength, 1);
 	decl String:szTime[iNameLength+1];
 	ReadFileString(hFile, szTime, iNameLength+1, iNameLength);
 	szTime[iNameLength] = '\0';
 
+	//Player Name String
 	new iNameLength2;
 	ReadFileCell(hFile, iNameLength2, 1);
 	decl String:szName[iNameLength2+1];

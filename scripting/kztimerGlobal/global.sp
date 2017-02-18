@@ -1102,7 +1102,7 @@ public Action:Client_GlobalCheck(client, args)
 				{
 					PrintToChat(client, "[%cKZ%c] %cGlobal Records disabled. Reason: This server is running an outdated KZTimer version. Contact an server admin!",MOSSGREEN,WHITE,RED);
 					return Plugin_Handled;
-				}
+				} 
 				else
 				if (!g_global_KZTimerFileSize)
 				{

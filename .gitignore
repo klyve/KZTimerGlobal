@@ -3,3 +3,6 @@
 builds
 compiled
 .development.mk
+scripting/include
+scripting/compile.sh
+scripting/spcomp.exe

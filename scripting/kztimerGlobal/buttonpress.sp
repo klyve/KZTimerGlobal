@@ -22,6 +22,7 @@ public ButtonPress(const String:name[], caller, activator, Float:delay)
 		Call_PushCell(activator);
 		Call_Finish();
 	}
+	return;
 }
 
 // - builded Climb buttons -
@@ -218,6 +219,14 @@ public CL_OnEndTimerPress(client)
 	g_fFinalTime[client] = GetEngineTime() - g_fStartTime[client] - g_fPauseTime[client];			
 	g_Tp_Final[client] = g_OverallTp[client];	
 	g_bTimeractivated[client] = false;
+	
+	//Negative Timer Fix
+	if (g_fCurrentRunTime[client] < -1)
+	{
+		PrintToChat(client, "[%cKZ%c] Your time has not been registered due to negative timer (BUG)", RED, WHITE);
+		g_bTimeractivated[client] = false;
+		return;
+	}
 
 	//timer pos
 	if (g_bFirstEndButtonPush && !IsFakeClient(client))
