@@ -154,6 +154,23 @@ public Action:UpdatePlayerProfile(Handle:timer, any:client)
 		db_updateStat(client);	
 }
 
+public Action:TimerCheck(Handle:timer) {
+ for (new i = 1; i <= MaxClients; i++) {
+ 		if(IsClientInGame(i)) {
+ 	   	 if(g_fPlayerLastTime[i] < -1 ) {
+ 			if(GetClientTeam(i) == CS_TEAM_T || GetClientTeam(i) == CS_TEAM_CT || GetClientTeam(i) == CS_TEAM_SPECTATOR) {
+ 				Client_Stop(i,0);
+ 				g_fPlayerLastTime[i] = 0.0;
+ 			}else { 
+ 			return Plugin_Handled;
+ 				}
+ 			}	
+ 		}
+ 	}
+ }
+ 
+
+
 public Action:StartTimer(Handle:timer, any:client)
 {
 	if (IsValidClient(client) && !IsFakeClient(client))	
