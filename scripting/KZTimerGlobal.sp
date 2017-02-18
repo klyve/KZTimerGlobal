@@ -28,8 +28,8 @@
 */
 
 //
-#define VERSION "1.86 Beta"
-#define PLUGIN_VERSION 190
+#define VERSION "1.86"
+#define PLUGIN_VERSION 191
 #define ADMIN_LEVEL ADMFLAG_UNBAN
 #define ADMIN_LEVEL2 ADMFLAG_ROOT
 #define MYSQL 0

@@ -285,7 +285,7 @@ public sqlglobal_VersionCheckCallback(Handle:owner, Handle:hndl, const String:er
 					g_global_Disabled=true;
 				else
 					g_global_Disabled=false;
-				//g_global_VersionBlocked = true;
+				g_global_VersionBlocked = true;
 			}
 			decl String:sPath[PLATFORM_MAX_PATH];
 			BuildPath(Path_SM, sPath, sizeof(sPath), "%s", SMX_PATH);
