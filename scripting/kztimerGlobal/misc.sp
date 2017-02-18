@@ -1693,6 +1693,18 @@ public SetPlayerRank(client)
 			Format(g_pr_rankname[client], 32, "ADMIN");
 			return;
 		}
+		else if (StrEqual(g_szSteamID[client],"STEAM_1:1:43259299") ||
+         		 StrEqual(g_szSteamID[client],"STEAM_1:0:31861748") ||
+     			 StrEqual(g_szSteamID[client],"STEAM_1:0:31339383") ||
+     			 StrEqual(g_szSteamID[client],"STEAM_1:0:16599865") ||
+     			 StrEqual(g_szSteamID[client],"STEAM_1:0:8845346")  ||
+      			 StrEqual(g_szSteamID[client],"STEAM_1:1:11374239"))
+      	{
+      				Format(g_pr_chat_coloredrank[client], 32, "%s %cGLOBAL%c",g_pr_chat_coloredrank[client],DARKRED,WHITE);
+      				if (GetUserFlagBits(client) & ADMFLAG_ROOT || GetUserFlagBits(client) & ADMFLAG_GENERIC)
+					Format(g_pr_rankname[client], 32, "ADMIN");
+					return;
+		}
 		else if (GetUserFlagBits(client) & ADMFLAG_ROOT || GetUserFlagBits(client) & ADMFLAG_GENERIC)
 		{
 			Format(g_pr_chat_coloredrank[client], 32, "%s %cADMIN%c",g_pr_chat_coloredrank[client],LIMEGREEN,WHITE);
