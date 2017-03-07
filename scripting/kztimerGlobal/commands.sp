@@ -591,6 +591,12 @@ public Action:Command_JoinTeam(client, const String:command[], argc)
 	decl String:arg[4];
 	GetCmdArg(1, arg, sizeof(arg));
 	new toteam = StringToInt(arg);
+	
+	// Check if valid team (HUGE thanks to Fusion! <3) 
+	if (toteam != CS_TEAM_SPECTATOR && toteam != CS_TEAM_CT && toteam != CS_TEAM_T)
+	{
+	return Plugin_Handled;
+	}
 
 	// Check if valid team (HUGE thanks to Fusion! <3) 
  	if (toteam != CS_TEAM_SPECTATOR && toteam != CS_TEAM_CT && toteam != CS_TEAM_T)
